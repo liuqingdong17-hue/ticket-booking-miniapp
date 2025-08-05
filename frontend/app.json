@@ -1,0 +1,36 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/favorites/favorites",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "navigationBarTitleText": "演出预订"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/index (1).png",
+        "selectedIconPath": "images/index.png"
+      },
+      {
+        "pagePath": "pages/favorites/favorites",
+        "text": "想看",
+        "iconPath": "images/index (1).png",
+        "selectedIconPath": "images/index.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/index (1).png",
+        "selectedIconPath": "images/index.png"
+      }
+    ],
+    "color": "#666",
+    "selectedColor": "#d81e06",
+    "backgroundColor": "#fff",
+    "borderStyle": "black"
+  }
+}

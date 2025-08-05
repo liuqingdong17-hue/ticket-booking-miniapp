@@ -1,0 +1,23 @@
+<!--index.wxml-->
+<!-- 搜索 -->
+<view class="search-container">
+  <image class="search-icon" src="/images/search.png" />
+  <input 
+    class="search-input" 
+    placeholder="搜索演出、艺人、场馆..."
+    confirm-type="search"
+    bindconfirm="onSearch"
+  />
+</view>
+
+<!-- 分类 -->
+<view class="category-grid">
+  <block wx:for="{{categories}}" wx:key="id">
+    <view class="category-item" bindtap="onCategoryTap" data-id="{{item.id}}">
+      <image class="category-icon" src="{{item.icon}}" />
+      <text class="category-label">{{item.name}}</text>
+    </view>
+  </block>
+</view>
+
+
