@@ -1,1 +1,128 @@
 /* pages/profile/profile.wxss */
+.profile-page {
+  background-color: #f8f8f8;
+  min-height: 100vh;
+  padding-bottom: 60rpx;
+}
+
+/* 顶部信息区 */
+.profile-header {
+  background: linear-gradient(135deg, #ff7ba9, #ff4d6d);
+  color: #fff;
+  padding: 60rpx 30rpx 40rpx;
+  border-radius: 0 0 40rpx 40rpx;
+  position: relative;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.user-text {
+  margin-left: 20rpx;
+}
+
+.nickname {
+  font-size: 36rpx;
+  font-weight: 600;
+}
+
+.settings-btn {
+  position: absolute;
+  right: 30rpx;
+  top: 60rpx;
+  background: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-size: 26rpx;
+  padding: 10rpx 26rpx;
+  border-radius: 30rpx;
+}
+
+/* 数据统计 */
+.stats {
+  background: #fff;
+  margin: 20rpx;
+  border-radius: 20rpx;
+  display: flex;
+  justify-content: space-around;
+  padding: 30rpx 0;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.count {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #ff4d6d;
+}
+
+.label {
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 卡片模块 */
+.card {
+  background: #fff;
+  margin: 20rpx;
+  border-radius: 20rpx;
+  padding: 20rpx 0;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.card-header {
+  padding: 0 30rpx 20rpx;
+}
+
+.card-title {
+  font-weight: 600;
+  font-size: 30rpx;
+}
+
+/* 功能网格 */
+.service-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  text-align: center;
+  padding: 10rpx 40rpx;
+}
+
+.service-item {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40rpx;
+}
+
+.icon {
+  width: 70rpx;
+  height: 70rpx;
+  margin-bottom: 12rpx;
+}
+
+.service-item text {
+  font-size: 26rpx;
+  color: #444;
+}
+
+/* 底部 */
+.footer {
+  text-align: center;
+  color: #aaa;
+  font-size: 24rpx;
+  margin-top: 60rpx;
+  line-height: 40rpx;
+}

@@ -1,0 +1,55 @@
+<view class="container">
+  <!--  彩带容器 -->
+  <view class="confetti-area">
+    <block wx:for="{{confettiList}}" wx:key="index">
+      <view class="confetti" style="{{item.style}}"></view>
+    </block>
+  </view>  
+  <!-- 自定义导航栏 -->
+  <view class="custom-nav">
+    <view class="back-btn" bindtap="goHome">
+      <image src="/images/arrow-left-pink.png" class="arrow-icon" />
+      <text>回首页</text>
+    </view>
+    <text class="nav-title">支付成功</text>
+  </view>
+
+  <!-- 动画部分 -->
+  <view class="success-header" animation="{{iconAnim}}">
+    <image src="/images/succeed.png" class="icon" />
+    <text class="success-text">恭喜抢票成功啦！</text>
+  </view>
+
+  <!-- 门票卡片 -->
+  <view class="ticket-card" animation="{{cardAnim}}">
+    <image class="cover" src="{{order.performance_cover}}" mode="aspectFill" />
+    <view class="dashed-divider"></view>
+    <view class="info">
+      <text class="name">{{order.performance_name}}</text>
+      <text class="venue">场地：{{order.venue_name}}</text>
+      <text class="time">时间：{{order.schedule_time}}</text>
+      <text class="seat">座位：{{order.seat_info}}</text>
+    </view>
+  </view>
+
+  <!--  二维码 -->
+<!-- 二维码区域 -->
+<view class="qrcode-area">
+  <view class="qrcode-wrapper">
+    <canvas
+      type="2d"
+      id="ticket-qrcode"
+      canvas-id="ticket-qrcode"
+      class="qrcode-canvas"
+    ></canvas>
+  </view>
+  <text class="qrcode-hint">请在入场时出示此二维码</text>
+</view>
+
+
+  <!-- 查看订单 -->
+  <view class="actions" animation="{{buttonAnim}}">
+    <button class="btn" bindtap="goToOrderList">查看订单</button>
+  </view>
+</view>
+

@@ -1,0 +1,20 @@
+<!--pages/select-schedule/select-schedule.wxml-->
+<view class="schedule-page">
+  <view class="header">请选择场次</view>
+
+  <view class="schedule-list">
+    <block wx:for="{{schedules}}" wx:key="id">
+      <view 
+        class="schedule-item {{selectedScheduleId === item.id ? 'active' : ''}}" 
+        bindtap="onSelectSchedule" 
+        data-id="{{item.id}}"
+      >
+        <view class="schedule-date">{{item.date}}</view>
+        <view class="schedule-time">{{item.time}}</view>
+        <view class="schedule-venue">{{item.venue_name}}</view>
+      </view>
+    </block>
+  </view>
+
+  <button class="confirm-btn" bindtap="onConfirm">确定</button>
+</view>

@@ -1,66 +1,60 @@
-// pages/favorites/favorites.js
+const app = getApp();
+
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    performances: [],
+    page: 1,
+    pageSize: 10,
+    hasMore: true
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
+  onLoad() {
+    this.fetchFavorites();
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
+  // 获取“想看”演出
+  fetchFavorites() {
+    const userId = wx.getStorageSync('userId'); // 登录时存储的 userId
+    if (!userId) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
+      return;
+    }
 
+    wx.request({
+      url: `http://localhost:3000/api/favorites`,
+      method: 'GET',
+      header: {
+        Authorization: `Bearer ${wx.getStorageSync('token')}` // 登录时存的 token
+      },
+      success: (res) => {
+        if (res.data.status === 0) {
+          this.setData({
+            performances: res.data.data || [],
+            hasMore: false
+          });
+        } else {
+          wx.showToast({ title: res.data.message, icon: 'none' });
+        }
+      },
+      fail: () => {
+        wx.showToast({ title: '请求失败', icon: 'none' });
+      }
+    });    
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
+  // 下拉加载更多
+  loadMore() {
+    if (!this.data.hasMore) return;
+    this.setData({ page: this.data.page + 1 }, () => {
+      this.fetchFavorites();
+    });
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+  // 点击演出卡片
+  onCardTap(e) {
+    const { id } = e.detail;
+    wx.navigateTo({
+      url: `/pages/detail/detail?id=${id}`
+    });
   }
-})
+});

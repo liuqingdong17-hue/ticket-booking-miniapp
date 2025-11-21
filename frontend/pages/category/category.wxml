@@ -1,0 +1,56 @@
+<!-- pages/category/category.wxml -->
+<!-- 顶部导航栏 -->
+<view class="top-nav">
+  <image class="back-icon" src="/images/back.png" bindtap="onBack" />
+  <text class="title">{{categoryName}}</text>
+</view>
+
+<!-- 近期热门演出（一个月内） -->
+<view class="hot-section">
+  <text class="section-title">近期热门</text>
+  <scroll-view scroll-x class="hot-scroll">
+    <block wx:for="{{hotPerformances}}" wx:key="id">
+      <view class="hot-card" bindtap="onCardTap" data-id="{{item.id}}">
+        <view class="image-wrapper">
+          <image src="{{item.cover_url}}" class="hot-image" mode="aspectFill" />
+          <view class="city-tag">{{item.city}}</view>
+        </view>
+        <view class="hot-info">
+          <text class="hot-name">{{item.name}}</text>
+          <text class="hot-price">¥{{item.min_price}}</text>
+        </view>
+      </view>
+    </block>
+    <view wx:if="{{!hotPerformances.length}}" class="empty">暂无热门演出</view>
+  </scroll-view>
+</view>
+
+<!-- 筛选部分 -->
+<view class="recommend-header">
+  <text class="title">全部演出</text>
+  <button bindtap="onFilterTap" class="filter-btn">筛选</button>
+</view>
+
+<!-- 筛选组件 -->
+<filter-panel
+  showFilter="{{showFilter}}"
+  selectedPriceValue="{{selectedPriceValue}}"
+  selectedDate="{{selectedDate}}"
+  selectedCity="{{selectedCity}}"
+  priceOptions="{{priceOptions}}"
+  bind:confirm="onFilterConfirm"
+  bind:close="onFilterClose"
+  bind:cityChange="onCityChange"
+  bind:reset="onFilterReset"
+/>
+
+<!-- 全部演出列表 -->
+<performance-list 
+  performances="{{performances}}"
+  hasMore="{{hasMore}}"
+  bind:loadMore="onLoadMore"
+  bind:cardTap="onCardTap"
+/>
+
+<!-- 加载提示 -->
+<view wx:if="{{loading}}" class="loading">加载中...</view>

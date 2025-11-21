@@ -13,11 +13,64 @@
 <!-- 分类 -->
 <view class="category-grid">
   <block wx:for="{{categories}}" wx:key="id">
-    <view class="category-item" bindtap="onCategoryTap" data-id="{{item.id}}">
+    <view class="category-item" bindtap="onCategoryTap" data-id="{{item.id}}" data-name="{{item.name}}">
       <image class="category-icon" src="{{item.icon}}" />
       <text class="category-label">{{item.name}}</text>
     </view>
   </block>
 </view>
 
+<!-- 轮播图 -->
+<view class="banner-wrapper">
+  <swiper
+    autoplay
+    circular
+    indicator-dots
+    interval="3000"
+    duration="500"
+  >
+    <block wx:for="{{banners}}" wx:key="id">
+      <swiper-item>
+        <image
+          src="{{item.image_url}}"
+          class="banner-img"
+          mode="aspectFill"
+          bindtap="onBannerTap"
+          data-item="{{item}}"
+        />
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
 
+<!-- 推荐筛选部分 -->
+<view class="recommend-header">
+  <text class="title">发现好演出</text>
+  <button bindtap="onFilterTap" class="filter-btn">筛选</button>
+</view>
+
+<!-- 筛选组件 -->
+<filter-panel
+  showFilter="{{showFilter}}"
+  selectedPriceValue="{{selectedPriceValue}}"
+  selectedDate="{{selectedDate}}"
+  selectedCity="{{selectedCity}}"
+  priceOptions="{{priceOptions}}"
+  cityOptions="{{cityOptions}}"
+  bind:priceChange="onFilterPriceChange"
+  bind:confirm="onFilterConfirm"
+  bind:close="onFilterClose"
+  bind:cityChange="onCityChange"
+  bind:reset="onFilterReset"  
+/>
+
+<!-- 推荐演出列表 -->
+<performance-list 
+  performances="{{performances}}"
+  hasMore="{{hasMore}}"
+  bind:loadMore="onLoadMore"
+  bind:cardTap="onCardTap"
+/>
+
+<!-- 加载提示 -->
+<view wx:if="{{loading}}" class="loading">加载中...</view>

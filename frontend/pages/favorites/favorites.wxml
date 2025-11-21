@@ -1,2 +1,11 @@
-<!--pages/favorites/favorites.wxml-->
-<text>pages/favorites/favorites.wxml</text>
+<view class="favorites-page">
+  <scroll-view scroll-y style="height: 100vh;" bindscrolltolower="onScrollToLower">
+    <performance-list
+      performances="{{performances}}"
+      hasMore="{{hasMore}}"
+      bind:loadMore="loadMore"
+      bind:cardTap="onCardTap"
+    />
+    <view wx:if="{{!performances.length}}" class="empty">暂无想看的演出</view>
+  </scroll-view>
+</view>

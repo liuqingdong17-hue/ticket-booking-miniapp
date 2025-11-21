@@ -1,0 +1,5 @@
+{
+  "usingComponents": { 
+    "performance-list": "/components/performance-list/performance-list"
+  }
+}

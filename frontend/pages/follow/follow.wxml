@@ -1,0 +1,39 @@
+<!--pages/follow/follow.wxml-->
+<view class="page">
+
+<!-- 顶部标题 -->
+<view class="header">
+  <text class="title">我的关注</text>
+</view>
+
+<!-- tab 只有一个 -->
+<view class="tabs">
+  <view class="tab active">艺人</view>
+</view>
+
+<!-- 艺人列表 -->
+<block wx:for="{{artists}}" wx:key="id">
+  <view class="artist-item" bindtap="goArtistDetail" data-id="{{item.id}}">
+    <image src="{{item.avatar}}" class="avatar"></image>
+
+    <view class="info">
+      <view class="name-row">
+        <text class="name">{{item.name}}</text>
+        <text class="tag">{{item.category || '艺人'}}</text>
+      </view>
+
+      <text class="desc">
+        {{ item.performance_count > 0 
+          ? '近期' + item.performance_count + '场演出 / ' + item.follower_count + '粉丝'
+          : item.follower_count + '粉丝'
+        }}
+      </text>
+    </view>
+  </view>
+</block>
+
+<view wx:if="{{artists.length === 0}}" class="empty">
+  — 我也是有底线的 —
+</view>
+
+</view>

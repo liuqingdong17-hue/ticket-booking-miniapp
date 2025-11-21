@@ -1,0 +1,30 @@
+<!--pages/policy-detail/refund-rules.wxml-->
+<view class="page">
+  <scroll-view scroll-y="true" class="content">
+
+    <view class="title">退票规则</view>
+
+    <view class="text">为保障观演秩序，请您在购票前了解以下退票规定。</view>
+
+    <view class="subtitle">一、一般情况不支持退票</view>
+    <view class="text">演出票通常不支持无理由退票。</view>
+
+    <view class="subtitle">二、可申请退票的情况</view>
+    <view class="text">1. 演出取消</view>
+    <view class="text">2. 演出延期或重大变更</view>
+    <view class="text">3. 出票错误或系统错误</view>
+
+    <view class="subtitle">三、退票流程</view>
+    <view class="text">用户可在订单页或客服渠道发起申请，平台将按规则处理。</view>
+
+    <view class="subtitle">四、退款方式</view>
+    <view class="text">一般情况下将按照原支付路径退款。</view>
+
+    <view class="subtitle">五、以下情况不予退票</view>
+    <view class="text">迟到未入场、个人原因无法观演、证件不符等情况。</view>
+
+    <view class="subtitle">六、不可抗力因素</view>
+    <view class="text">如因不可抗力取消演出，以主办方退票方案为准。</view>
+
+  </scroll-view>
+</view>

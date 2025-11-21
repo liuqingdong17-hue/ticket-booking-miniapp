@@ -1,0 +1,104 @@
+/* 页面背景 */
+.container {
+  background: #f7f7f7;
+  min-height: 100vh;
+  padding-bottom: 40rpx;
+}
+
+/* 模块统一白色卡片 */
+.box {
+  width: 92%;
+  margin: 0 auto 32rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 34rpx 40rpx;
+  box-shadow: 0 8rpx 20rpx rgba(0,0,0,0.04);
+}
+
+/* 标题（如 金额信息 / 座位信息） */
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin: 40rpx 0 20rpx 40rpx;  /* 对齐 box 左边 */
+}
+
+/* 每一行（订单号、演出时间...） */
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18rpx 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+/* 左侧标签 */
+.label {
+  font-size: 28rpx;
+  color: #666;
+}
+
+/* 右侧内容 */
+.value {
+  font-size: 28rpx;
+  color: #333;
+  max-width: 60%;
+  text-align: right;
+  word-break: break-all;
+}
+
+/* 座位文本 */
+.seat-item {
+  padding: 20rpx 0;
+  font-size: 28rpx;
+  border-bottom: 1px solid #f0f0f0;
+  color: #444;
+}
+
+.seat-item:last-child {
+  border-bottom: none;
+}
+
+/* 金额部分 - 实付金额突出显示 */
+.price {
+  color: #ff4d6d;
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+/* 金额行加粗 */
+.bold .value {
+  font-weight: 700;
+}
+
+/* 支付状态颜色 */
+.status.paid {
+  color: #27ae60;   /* 绿色 */
+  font-weight: 600;
+}
+
+.status.unpaid {
+  color: #ff4d4f;   /* 红色 */
+  font-weight: 600;
+}
+
+/* 按钮（示例：查看电子票） */
+.ticket-btn {
+  width: 92%;
+  margin: 20rpx auto 0;
+  background: #ff4d6d;
+  color: #fff;
+  font-size: 30rpx;
+  padding: 22rpx 0;
+  border-radius: 50rpx;
+  text-align: center;
+  box-shadow: 0 8rpx 16rpx rgba(255,77,108,0.25);
+}
+
+.btn:active {
+  opacity: 0.85;
+}

@@ -1,0 +1,109 @@
+.search-page {
+  padding: 10px;
+  background-color: #f7f7f7;
+}
+
+.search-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.search-input {
+  width: 80%;
+  height: 40px;
+  padding-left: 10px;
+  border-radius: 20px;
+  background-color: #fff;
+}
+
+.search-btn {
+  width: 20%;
+  height: 40px;
+  background-color: #ff4b70;
+  color: white;
+  border-radius: 20px;
+  text-align: center;
+  line-height: 40px; 
+}
+
+.performance-card {
+  display: flex;
+  margin-bottom: 15px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.cover-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.performance-info {
+  margin-left: 10px;
+  flex: 1;
+}
+
+.performance-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.performance-time,
+.performance-venue {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 5px;
+}
+
+.performance-price {
+  font-size: 16px;
+  color: #FF6347;
+  font-weight: bold;
+}
+
+.expired-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.empty, .end-tip {
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+}
+
+.artist-result-item {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.result-info {
+  margin-left: 10px;
+}
+
+.artist-name {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.artist-followers {
+  font-size: 14px;
+  color: #888;
+}

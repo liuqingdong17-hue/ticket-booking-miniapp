@@ -1,0 +1,73 @@
+<view class="order-confirm-page">
+
+<!-- 演出信息 -->
+<view class="section performance">
+  <image class="cover" src="{{performance.cover_url}}" mode="aspectFill"></image>
+  <view class="info">
+    <view class="title">{{performance.name}}</view>
+    <view class="time">{{schedule.date}} {{schedule.time}}</view>
+    <view class="venue">{{schedule.venue_name}}</view>
+  </view>
+</view>
+
+<!-- 座位信息 -->
+<view class="section seats">
+  <view class="label">已选座位</view>
+  <view class="seat-list">
+    <block wx:for="{{selectedSeats}}" wx:key="id">
+      <view class="seat-item">
+        <text>
+          {{item.area_name || ''}}{{item.row_no ? item.row_no + '排' : ''}}{{item.seat_no ? item.seat_no + '座' : ''}}
+        </text>
+        <text>￥{{item.price || ticketType.price}}</text>
+      </view>
+    </block>
+  </view>
+</view>
+
+<!-- 观演人 -->
+<view class="section viewer" bindtap="onSelectViewer">
+  <view class="label">观演人信息</view>
+  <view class="value">
+    <block wx:if="{{selectedViewer}}">
+      <text>{{selectedViewer.name}}</text>
+      <text class="id-card">{{selectedViewer.id_card}}</text>
+    </block>
+    <block wx:else>
+      <text class="placeholder">请选择观演人 ></text>
+    </block>
+  </view>
+</view>
+
+<!-- 联系手机号 -->
+<view class="section phone">
+  <view class="label">联系电话</view>
+  <input class="input" placeholder="请输入手机号" value="{{contactPhone}}" bindinput="onInputPhone" />
+</view>
+
+<!-- 票价小计 -->
+<view class="section price">
+  <view class="line">
+    <text>票价合计</text>
+    <text>￥{{totalPrice}}</text>
+  </view>
+  <view class="line" bindtap="onSelectCoupon">
+    <text>优惠券</text>
+    <text class="discount">-￥{{discountCoupon}}</text>
+  </view>
+  <view class="line total">
+    <text>实付金额</text>
+    <text class="final">￥{{finalPrice}}</text>
+  </view>
+</view>
+
+<!-- 提交按钮 -->
+<view class="bottom-bar">
+  <view class="price-area">
+    <text>合计：</text>
+    <text class="price">￥{{finalPrice}}</text>
+  </view>
+  <button class="submit-btn" bindtap="onSubmit" loading="{{loading}}">立即支付</button>
+</view>
+
+</view>

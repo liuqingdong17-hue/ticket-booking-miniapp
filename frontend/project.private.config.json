@@ -5,5 +5,87 @@
     "compileHotReLoad": true,
     "urlCheck": false
   },
-  "condition": {}
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/ticket/ticket",
+          "pathName": "pages/ticket/ticket",
+          "query": "",
+          "scene": null,
+          "launchMode": "default"
+        },
+        {
+          "name": "pages/profile/profile",
+          "pathName": "pages/profile/profile",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/coupon-select/coupon-select",
+          "pathName": "pages/coupon-select/coupon-select",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/pay-success/pay-success",
+          "pathName": "pages/pay-success/pay-success",
+          "query": "id=200",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/order-confirm/order-confirm",
+          "pathName": "pages/order-confirm/order-confirm",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/seat-select/seat-select",
+          "pathName": "pages/seat-select/seat-select",
+          "query": "schedule_id=1",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/seat-select/seat-select",
+          "pathName": "pages/seat-select/seat-select",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/artistDetail/artistDetail",
+          "pathName": "pages/artistDetail/artistDetail",
+          "query": "id=2",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/detail/detail",
+          "pathName": "pages/detail/detail",
+          "query": "id=1",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/index/index",
+          "pathName": "pages/index/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/category/category",
+          "pathName": "pages/category/category",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
+  }
 }

@@ -1,0 +1,175 @@
+.page {
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-color: #f5f6fa;
+}
+
+/* 小标题 */
+.section-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+  padding: 20rpx 30rpx 10rpx;
+  margin: 0;
+}
+
+/* 卡片基础 */
+.ticket-card {
+  display: flex;
+  width: 92%;
+  margin: 12rpx auto;     /* 正常、均匀的间距 */
+  padding: 20rpx;
+  border-radius: 20rpx;
+  position: relative;
+  min-height: 180rpx;
+  box-sizing: border-box;
+}
+
+/* 可使用卡片 */
+.ticket-card.usable {
+  background: #7c59ff;
+  color: #fff;
+  box-shadow: 0 6rpx 18rpx rgba(124,89,255,0.25);
+}
+
+/* 历史票卡片 */
+.ticket-card.history {
+  background: #fff;
+  color: #333;
+  box-shadow: 0 6rpx 20rpx rgba(0,0,0,0.06);
+}
+
+/* 左侧封面 */
+.left {
+  position: relative;
+  margin-right: 20rpx;
+}
+
+.cover {
+  width: 140rpx;
+  height: 180rpx;
+  border-radius: 14rpx;
+}
+
+/* 张数 */
+/* 张数圆形徽章（固定位置 + 更协调大小） */
+.badge {
+  position: absolute;
+  left: -6rpx;       /* 更贴近封面 */
+  bottom: -6rpx;
+  
+  width: 48rpx;      /* 缩小更美观 */
+  height: 48rpx;
+
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff2c7d, #ff4b5a);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  color: #fff;
+  box-shadow: 0 4rpx 10rpx rgba(0,0,0,0.15);
+}
+
+/* 灰色历史票徽章 */
+.history-badge {
+  background: #c3c3c3;
+}
+
+/* 字号也缩一点，不挤 */
+.badge-count {
+  font-size: 20rpx;
+  font-weight: 600;
+  line-height: 20rpx;
+}
+
+.badge-text {
+  font-size: 16rpx;
+  margin-top: 2rpx;
+}
+
+
+/* 右侧 */
+.right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.line {
+  font-size: 22rpx;
+  opacity: .9;
+  margin-top: 6rpx;
+  line-height: 30rpx;
+}
+
+.dot-line {
+  height: 2rpx;
+  margin: 12rpx 0;
+  background-image: repeating-linear-gradient(
+    to right,
+    #ccc,
+    #ccc 10rpx,
+    transparent 10rpx,
+    transparent 20rpx
+  );
+}
+
+/* 按钮行 */
+.btn-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btn-small {
+  padding: 8rpx 20rpx;
+  background: rgba(255,255,255,0.3);
+  color: #fff;
+  border-radius: 999rpx;
+  font-size: 20rpx;
+  margin-right: 10rpx;
+}
+
+.btn-comment {
+  padding: 8rpx 26rpx;
+  background: #ff2c7d;
+  color: #fff;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+}
+
+.ticket-type {
+  font-size: 22rpx;
+  opacity: .8;
+}
+
+/* 已结束水印 */
+.stamp {
+  position: absolute;
+  right: 30rpx;
+  bottom: 30rpx;
+  width: 90rpx;
+  height: 90rpx;
+  border: 3rpx solid rgba(0,0,0,0.25);
+  border-radius: 50%;
+  opacity: 0.3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-20deg);
+}
+
+.stamp text {
+  font-size: 22rpx;
+  color: #444;
+}

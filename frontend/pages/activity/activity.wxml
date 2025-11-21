@@ -1,0 +1,52 @@
+<!-- pages/activity/activity.wxml -->
+<view class="activity-page">
+  <!-- 加载状态 -->
+  <view wx:if="{{loading}}" class="loading">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 活动内容 -->
+  <view wx:if="{{!loading && activity}}" class="content">
+    <image class="banner" src="{{activity.cover_image}}" mode="aspectFill"></image>
+
+    <view class="info">
+      <text class="title">{{activity.title}}</text>
+      <text class="desc">{{activity.description}}</text>
+      <text class="time">活动时间：{{activity.start_time}} ~ {{activity.end_time}}</text>
+    </view>
+
+    <view wx:if="{{coupons.length}}" class="coupons">
+  <view class="section-title">🎫 可领取优惠券</view>
+  <block wx:for="{{coupons}}" wx:key="id">
+    <view class="coupon-card">
+      <view class="left">
+        <text class="coupon-title">{{item.display_text}}</text>
+        <text class="coupon-date">有效期：{{item.valid_start}} ~ {{item.valid_end}}</text>
+      </view>
+
+      <button
+        class="receive-btn"
+        data-id="{{item.id}}"
+        bindtap="onReceiveCoupon"
+        disabled="{{item.user_has_received}}"
+      >
+        {{item.user_has_received ? '已领取' : '立即领取'}}
+      </button>
+    </view>
+  </block>
+</view>
+
+    <!-- ✅ 活动详情内容展示区 -->
+    <view class="activity-detail" wx:if="{{activity.detail_content}}">
+      <view class="section-title">📖 活动详情</view>
+      <!-- 富文本渲染 -->
+      <rich-text nodes="{{activity.detail_content}}"></rich-text>
+    </view>
+
+  </view>
+
+  <!-- 活动不存在 -->
+  <view wx:if="{{!loading && !activity}}" class="empty">
+    <text>活动不存在或已下架</text>
+  </view>
+</view>

@@ -1,0 +1,79 @@
+.seat-map-container {
+  width: 100%;
+  height: 100vh;
+  background: #f5f5f5;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Canvas 占位，实际像素已在 js 中处理 */
+.seat-canvas {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  display: block;
+}
+
+/* 底部已选栏：固定、可横向滚动 */
+.selected-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  min-height: 88rpx;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #eee;
+  box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.05);
+  padding: 10rpx;
+  z-index: 30;
+}
+
+/* 左侧：水平滚动的已选座位列表 */
+.seat-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
+  gap: 10rpx;
+  padding-bottom: 2rpx;
+}
+
+/* 单个座位块：固定高度，超出会被滚动，不换行 */
+.seat-item {
+  display: inline-block;
+  background: #f6f6f6;
+  border-radius: 8rpx;
+  padding: 8rpx 14rpx;
+  margin-right: 10rpx;
+  font-size: 26rpx;
+  white-space: nowrap;
+}
+
+/* 右侧价格 + 按钮组 */
+.bar-right {
+  display: flex;
+  align-items: center;
+  margin-left: 12rpx;
+}
+
+.total-price {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #ff4d4f;
+  margin-right: 12rpx;
+  min-width: 80rpx;
+  text-align: right;
+}
+
+.confirm-btn {
+  background: linear-gradient(90deg, #ff7b72, #ff4d4f);
+  color: white;
+  font-size: 26rpx;
+  border-radius: 30rpx;
+  padding: 10rpx 22rpx;
+  border: none;
+}

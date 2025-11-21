@@ -1,0 +1,29 @@
+<!--pages/seat-select/seat-select.wxml-->
+<view class="seat-map-container">
+  <!-- 座位图 Canvas -->
+  <canvas
+    type="2d"
+    id="seatCanvas"
+    class="seat-canvas"
+    bindtouchstart="onTouchStart"
+    bindtouchmove="onTouchMove"
+    bindtouchend="onTouchEnd"
+    bindtap="onCanvasTap"
+  ></canvas>
+
+  <!-- 底部已选栏（固定在底部，水平滚动） -->
+  <view class="selected-bar" wx:if="{{selectedSeats.length > 0}}">
+    <scroll-view class="seat-list" scroll-x scroll-with-animation>
+      <block wx:for="{{selectedSeats}}" wx:key="{{item.id}}">
+        <view class="seat-item">
+          {{item.area_name}} {{item.row_no}}排{{item.seat_no}}座
+        </view>
+      </block>
+    </scroll-view>
+
+    <view class="bar-right">
+      <view class="total-price">￥{{totalPrice}}</view>
+      <button class="confirm-btn" bindtap="onConfirm">确定</button>
+    </view>
+  </view>
+</view>

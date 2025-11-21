@@ -1,0 +1,80 @@
+<view class="page">
+  <scroll-view scroll-y="true" class="content">
+
+<!-- 未结束 -->
+<block wx:if="{{usableList.length > 0}}">
+  <view class="section-title">可使用</view>
+
+  <block wx:for="{{usableList}}" wx:key="order_id">
+    <view class="ticket-card usable" bindtap="goDetail" data-id="{{item.order_id}}" data-ended="{{item.ended}}"
+>
+
+      <!-- 左侧封面 -->
+      <view class="left">
+        <image class="cover" src="{{item.cover}}" mode="aspectFill"></image>
+
+        <view class="badge">
+          <text class="badge-count">{{item.ticket_count}}</text>
+          <text class="badge-text">张票</text>
+        </view>
+      </view>
+
+      <!-- 右侧信息 -->
+      <view class="right">
+        <view class="title">{{item.performance_name}}</view>
+
+        <view class="line">{{item.city}} | {{item.venue_name}}</view>
+        <view class="line">{{item.show_time}}</view>
+
+        <view class="dot-line"></view>
+
+        <view class="btn-row">
+          <view class="btn-small">转送</view>
+          <view class="btn-small">纪念票</view>
+          <view class="ticket-type">电子票</view>
+        </view>
+      </view>
+    </view>
+  </block>
+</block>
+
+<!-- 历史票标题 -->
+<block wx:if="{{historyList.length > 0}}">
+  <view class="section-title">历史票</view>
+</block>
+
+<!-- 历史票 -->
+<block wx:for="{{historyList}}" wx:key="order_id">
+  <view class="ticket-card history" bindtap="goDetail" data-id="{{item.order_id}}" data-ended="{{item.ended}}"
+>
+
+    <view class="left">
+      <image class="cover" src="{{item.cover}}" mode="aspectFill"></image>
+
+      <view class="badge history-badge">
+        <text class="badge-count">{{item.ticket_count}}</text>
+        <text class="badge-text">张票</text>
+      </view>
+    </view>
+
+    <view class="right">
+      <view class="title">{{item.performance_name}}</view>
+
+      <view class="line">{{item.city}} | {{item.venue_name}}</view>
+      <view class="line">{{item.show_time}}</view>
+
+      <view class="dot-line"></view>
+
+      <view class="btn-row">
+        <view class="btn-comment">去评价</view>
+        <view class="ticket-type">电子票</view>
+      </view>
+    </view>
+
+    <!-- 已结束水印 -->
+    <view class="stamp"><text>已结束</text></view>
+  </view>
+</block>
+
+</scroll-view>
+</view>

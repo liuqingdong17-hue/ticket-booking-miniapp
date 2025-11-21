@@ -1,0 +1,89 @@
+/* pages/follow/follow.wxss */
+.page {
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+.header {
+  padding: 20rpx 30rpx;
+  background: #fff;
+  text-align: center;
+  font-size: 36rpx;
+  font-weight: bold;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  padding: 20rpx 0;
+  background: #fff;
+}
+
+.tab {
+  font-size: 30rpx;
+  color: #aaa;
+  margin: 0 40rpx;
+}
+
+.tab.active {
+  color: #ff4d6d;
+  font-weight: 500;
+  border-bottom: 4rpx solid #ff4d6d;
+  padding-bottom: 8rpx;
+}
+
+.artist-item {
+  display: flex;
+  background: #fff;
+  margin: 20rpx;
+  padding: 20rpx;
+  border-radius: 16rpx;
+  align-items: center;
+  box-shadow: 0 4rpx 10rpx rgba(0,0,0,0.04);
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  margin-right: 24rpx;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.name-row {
+  display: flex;
+  align-items: center;
+}
+
+.name {
+  font-size: 32rpx;
+  font-weight: 600;
+  margin-right: 16rpx;
+}
+
+.tag {
+  font-size: 22rpx;
+  color: #fff;
+  background: #aaa;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+}
+
+.desc {
+  margin-top: 10rpx;
+  font-size: 26rpx;
+  color: #888;
+}
+
+.empty {
+  text-align: center;
+  margin-top: 200rpx;
+  color: #ccc;
+  font-size: 28rpx;
+}

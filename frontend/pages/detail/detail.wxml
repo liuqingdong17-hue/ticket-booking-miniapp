@@ -1,0 +1,113 @@
+<view class="page">
+  <view class="header">
+    <image src="{{performance.cover_url}}" class="poster" mode="aspectFill" />
+    <view class="info">
+      <text class="title">{{performance.name}}</text>
+      <text class="price">{{performance.price_range}}</text>
+    </view>
+  </view>
+  <view class="detail-card">
+    <!-- 时间信息 -->
+    <view class="time-block">
+      <text class="start-time">{{performance.start_time || '待定'}}</text>
+      <text class="duration-text">约{{performance.duration || 0}}分钟 (以现场为准)</text>
+    </view>
+    <view class="divider"></view>
+
+    <!-- 场馆信息 -->
+    <view class="venue-block">
+      <view class="venue-info">
+        <text class="venue-name">{{performance.venue_name || '未知场馆'}}</text>
+        <text class="venue-address">{{performance.venue_address || '未知地址'}}</text>
+      </view>
+      <view wx:if="{{performance.has_seat_map}}" class="seat-map-container" bindtap="showSeatMap">
+        <image src="/images/seat.png" class="seat-icon" />
+        <text class="seat-text">座位图</text>
+      </view>
+    </view>
+    <view class="divider"></view>
+
+    <!-- 服务信息，保留原有样式 -->
+    <view class="service-section">
+      <view class="service-item">
+        <image src="{{performance.refundable ? '/images/yesicon.png' : '/images/noicon.png'}}" class="service-icon" />
+        <text class="service-text">可退还</text>
+      </view>
+      <view class="service-item">
+        <image src="{{performance.selectable_seats ? '/images/yesicon.png' : '/images/noicon.png'}}" class="service-icon" />
+        <text class="service-text">可选座</text>
+      </view>
+      <view class="service-item">
+        <image src="{{performance.real_name_required ? '/images/yesicon.png' : '/images/noicon.png'}}" class="service-icon" />
+        <text class="service-text">实名购票入场</text>
+      </view>
+      <view class="service-item">
+        <image src="{{performance.ticket_exchangeable ? '/images/yesicon.png' : '/images/noicon.png'}}" class="service-icon" wx:if="{{performance.ticket_exchangeable}}" />
+        <image src="{{performance.electronic_ticket ? '/images/yesicon.png' : '/images/noicon.png'}}" class="service-icon" wx:if="{{performance.electronic_ticket}}" />
+        <text class="service-text">{{performance.ticket_exchangeable ? '自助换票' : '电子票'}}</text>
+      </view>
+    </view>
+    <view wx:if="{{performance.refundable || performance.selectable_seats || performance.real_name_required || performance.ticket_exchangeable || performance.electronic_ticket}}" class="service-details-container" bindtap="showServiceDetails">
+      <text class="arrow-text">></text>
+    </view>
+  </view>
+  <!-- 艺人卡片：单个对象 -->
+<view wx:if="{{artist}}" class="artist-card" bindtap="goArtistDetail">
+  <view class="artist-left">
+    <image class="artist-avatar" src="{{artist.avatar}}" mode="aspectFill"></image>
+  </view>
+  <view class="artist-middle">
+    <view class="artist-name">{{artist.name}}</view>
+    <view class="artist-meta">{{artist.fans || 0}} 粉丝 | {{artist.shows || 0}} 场在售演出</view>
+  </view>
+  <view class="artist-right" catchtap="toggleFollow">
+    <view class="follow-btn {{artist.isFollowing ? 'following' : ''}}">
+      {{artist.isFollowing ? '已关注' : '+ 关注'}}
+    </view>
+  </view>
+</view>
+<!-- 演出介绍 -->
+<view class="performance-intro">
+  <view class="section-header">
+    <text class="section-title">演出介绍</text>
+  </view>
+  <view class="section-content">
+    <rich-text nodes="{{performance.description}}"></rich-text>
+  </view>
+</view>
+<!-- 底部固定栏 -->
+<view class="bottom-bar">
+  <!-- 分享 -->
+ <button class="share-btn" open-type="share">
+  <image class="icon" src="/images/share.png"></image>
+  <text>分享</text>
+</button>
+
+  <!-- 添加想看 -->
+  <view class="favorite-btn" bindtap="onToggleFavorite">
+  <image class="favorite-icon" 
+         src="{{isFavorite ? '/images/star-filled.png' : '/images/star.png'}}" />
+  <text class="favorite-text">{{isFavorite ? '已想看' : '添加想看'}}</text>
+</view>
+
+  <!-- 立即购票 / 已下架 -->
+<view class="buy-btn {{!performance.isAvailable ? 'disabled' : ''}}" 
+      bindtap="{{performance.isAvailable ? 'onBuyNow' : ''}}">
+  {{performance.isAvailable ? '立即购票' : '已下架'}}
+</view>
+
+</view>
+
+  <!-- 座位图弹窗 -->
+  <view wx:if="{{showSeatMapModal}}" class="seat-map-modal">
+    <view class="modal-content">
+      <image src="{{performance.seat_map_url}}" class="seat-map-image" mode="aspectFit" />
+      <button class="close-btn" bindtap="closeSeatMapModal">关闭</button>
+    </view>
+  </view>
+
+  <!-- 服务详情弹窗 -->
+  <service-detail id="service-detail" wx:if="{{showServiceDetailsModal}}"/>
+
+  <view wx:if="{{loading}}" class="loading">加载中...</view>
+</view>

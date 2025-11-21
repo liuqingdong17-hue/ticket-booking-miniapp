@@ -1,0 +1,31 @@
+<!--pages/policy-detail/ticket-rules.wxml-->
+<view class="page">
+  <scroll-view scroll-y="true" class="content">
+
+    <view class="title">购票须知</view>
+
+    <view class="text">请在购票前仔细阅读以下内容。支付成功即表示接受规则。</view>
+
+    <view class="subtitle">一、购票前须知</view>
+    <view class="text">下单前请确认演出名称、时间、场馆、座位区域等信息。</view>
+
+    <view class="subtitle">二、订单与支付</view>
+    <view class="text">订单需在有效期内完成支付，否则可能自动关闭。</view>
+
+    <view class="subtitle">三、电子票与取票</view>
+    <view class="text">购票成功后可在“我的票夹”中查看电子票。</view>
+
+    <view class="subtitle">四、实名制要求</view>
+    <view class="text">根据演出要求，需提交观演人真实姓名和证件信息。</view>
+
+    <view class="subtitle">五、演出变更与取消</view>
+    <view class="text">如遇演出取消、延期，平台将按主办方规则处理。</view>
+
+    <view class="subtitle">六、退票与改签规则</view>
+    <view class="text">大部分演出不支持无理由退票。</view>
+
+    <view class="subtitle">七、迟到与现场规则</view>
+    <view class="text">请提前到场，现场需遵守场馆要求。</view>
+
+  </scroll-view>
+</view>

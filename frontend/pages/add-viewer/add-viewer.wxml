@@ -1,0 +1,10 @@
+<!--pages/add-viewer/add-viewer.wxml-->
+<!--pages/add-viewer/add-viewer.wxml-->
+<view class="container">
+
+  <view class="form-section">
+    <input class="input name-input" placeholder="请输入姓名" bindinput="onNameInput" value="{{newViewer.name}}" />
+    <input class="input id-input" placeholder="请输入身份证号" bindinput="onIdCardInput" value="{{newViewer.id_card}}" type="idcard" />
+    <button class="add-btn" bindtap="onAddViewer" disabled="{{!newViewer.name || !newViewer.id_card}}">添加观演人</button>
+  </view>
+</view>

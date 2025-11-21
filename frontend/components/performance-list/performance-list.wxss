@@ -1,0 +1,87 @@
+.performance-card {
+  display: flex;
+  padding: 24rpx 32rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+  background-color: #fff;
+}
+
+.cover-image {
+  width: 200rpx;
+  height: 260rpx;
+  border-radius: 12rpx;
+  object-fit: cover;
+  margin-right: 24rpx;
+}
+
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.category {
+  font-size: 24rpx;
+  color: #888;
+  margin-bottom: 8rpx;
+}
+
+.title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 8rpx;
+}
+
+.artists {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 8rpx;
+}
+
+.datetime {
+  font-size: 26rpx;
+  color: #444;
+  margin-bottom: 4rpx;
+}
+
+.venue {
+  font-size: 26rpx;
+  color: #444;
+}
+
+.price {
+  font-size: 28rpx;
+  color: #ff4d4f;
+  font-weight: bold;
+  margin-top: 8rpx;
+}
+
+.empty, .end-tip {
+  text-align: center;
+  padding: 20rpx;
+  color: #888;
+}
+
+/* 新增 */
+/* 允许右上角角标定位 */
+.performance-card {
+  position: relative;
+}
+
+/* 下架态整体灰掉 */
+.performance-card.expired {
+  opacity: 0.5;
+}
+
+/* “已下架”角标 */
+.expired-tag {
+  position: absolute;
+  top: 12rpx;
+  right: 12rpx;
+  padding: 4rpx 12rpx;
+  font-size: 22rpx;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 8rpx;
+}

@@ -1,0 +1,31 @@
+<view class="artist-page">
+  <!-- 顶部大图 -->
+  <image class="artist-cover" src="{{artist.avatar}}" mode="aspectFill"></image>
+
+  <!-- 基本信息 -->
+  <view class="artist-info">
+    <view class="artist-name">
+      <text class="name">{{artist.name}}</text>
+      <image wx:if="{{artist.verified}}" class="verified" src="/assets/icons/verified.png"></image>
+    </view>
+    <view class="artist-stats">
+      <text>{{artist.fans}} 粉丝  </text>
+      <text>{{artist.shows}} 场近期演出</text>
+    </view>
+    <view class="artist-desc">{{artist.description}}</view>
+
+    <button class="follow-btn" bindtap="toggleFollow">
+      {{artist.isFollowing ? '已关注' : '+ 关注'}}
+    </button>
+  </view>
+
+  <!-- 近期演出 -->
+  <view class="section">
+    <view class="section-title">近期演出</view>
+    <performance-list 
+    performances="{{performances}}"
+    hasMore="{{hasMore}}"
+    bind:loadMore="onLoadMore"
+    bind:cardTap="onCardTap"/>
+  </view>
+</view>

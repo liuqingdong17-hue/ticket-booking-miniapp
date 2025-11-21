@@ -1,0 +1,11 @@
+<!--pages/settings/settings.wxml-->
+<view class="settings-page">
+  <!-- 清除缓存 -->
+  <view class="item" bindtap="clearCache">
+    <text class="label">清除缓存</text>
+    <text class="status">></text>
+  </view>
+
+  <!-- 退出登录 -->
+  <button class="logout-btn" bindtap="logout">退出登录</button>
+</view>

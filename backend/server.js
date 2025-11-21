@@ -1,48 +1,102 @@
+require('dotenv').config();
 const express = require('express');
-const mysql = require('mysql2');
 const cors = require('cors');
 const app = express();
-const port = 3000;
+const db = require('./db'); // 引入数据库配置
+require('./tasks/couponCleaner');
 
+
+// ================== 中间件 ==================
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'your_username',    // 替换为您的MySQL用户名
-  password: 'your_password', // 替换为您的MySQL密码
-  database: 'ticket_system'  // 替换为您的数据库名
+// 静态资源目录：如 http://localhost:3000/public/image.jpg
+app.use('/public', cors(), express.static('public'));
+
+// 自定义返回错误中间件（挂载 res.cc 快捷方法）
+app.use((req, res, next) => {
+  res.cc = function (err, status = 1) {
+    res.send({
+      status,
+      message: err instanceof Error ? err.message : err
+    });
+  };
+  next();
 });
 
-db.connect((err) => {
-  if (err) throw err;
-  console.log('Connected to MySQL');
-  db.query('CREATE TABLE IF NOT EXISTS performances (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), date VARCHAR(255), venue VARCHAR(255))');
-  db.query('CREATE TABLE IF NOT EXISTS orders (id INT AUTO_INCREMENT PRIMARY KEY, performance_id INT, seat VARCHAR(255), name VARCHAR(255), phone VARCHAR(255), status VARCHAR(255))');
+// ================== 数据库连接测试 ==================
+db.query('SELECT 1', (err) => {
+  if (err) {
+    console.error('❌ 数据库连接失败:', err);
+  } else {
+    console.log('✅ 数据库连接成功');
+  }
 });
 
-app.get('/api/performances', (req, res) => {
-  db.query('SELECT * FROM performances', (err, results) => {
-    if (err) throw err;
-    res.json(results);
-  });
-});
+// ================== 路由挂载 ==================
+// 引入 auth 路由
+const authRouter = require('./routes/auth')
+app.use('/api', authRouter)
 
-app.get('/api/performances/:id', (req, res) => {
-  db.query('SELECT * FROM performances WHERE id = ?', [req.params.id], (err, results) => {
-    if (err) throw err;
-    res.json(results[0]);
-  });
-});
+// banner
+app.use('/api', require('./routes/banner'));
 
-app.post('/api/orders', (req, res) => {
-  const { performanceId, seat, name, phone } = req.body;
-  db.query('INSERT INTO orders (performance_id, seat, name, phone, status) VALUES (?, ?, ?, ?, ?)', [performanceId, seat, name, phone, 'pending'], (err) => {
-    if (err) throw err;
-    res.json({ message: 'Order created', orderId: db.insertId });
-  });
-});
+// 演出推荐/筛选
+app.use('/api/performances', require('./routes/performances'));
 
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+// 演出详情
+app.use('/api/performance-details', require('./routes/performanceDetails'));
+
+// 艺人相关 (获取、关注、取关)
+app.use('/api/artists', require('./routes/artists'));
+
+// 用户模块
+app.use('/api/user', require('./routes/user'));
+
+//演出收藏
+const userFavoritesRouter = require('./routes/userFavorites');
+app.use('/api/userFavorites', userFavoritesRouter);
+
+//想看
+const favoritesRouter = require('./routes/favorites');
+app.use('/api/favorites', favoritesRouter);
+
+//搜索
+const searchRouter = require('./routes/search');
+app.use('/api/search', searchRouter);
+
+// 活动 优惠券模块
+const couponRouter = require('./routes/coupon');
+app.use('/api/coupons', couponRouter);
+
+// 活动模块
+const activitiesRouter = require('./routes/activities');
+app.use('/api/activities', activitiesRouter);
+
+//选座
+const scheduleSeatsRouter = require('./routes/scheduleSeats')
+app.use('/api', scheduleSeatsRouter)
+
+//订单
+const orderRouter = require('./routes/order');
+app.use('/api/order', orderRouter);
+
+
+//日期 点击购买 后选择的
+const scheduleRouter = require('./routes/schedules')
+app.use('/api/schedules', scheduleRouter)
+
+//观影人 实名
+const viewerRouter = require('./routes/viewer');
+app.use('/api/viewer', viewerRouter);
+
+//意见反馈 图片上传
+const feedbackRouter = require('./routes/feedback');
+app.use('/api/feedback', feedbackRouter);
+
+
+// ================== 启动服务 ==================
+app.listen(3000, () => {
+  console.log('🚀 Server running at http://localhost:3000');
 });

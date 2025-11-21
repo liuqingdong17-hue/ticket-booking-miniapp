@@ -1,0 +1,22 @@
+<!--components/service-detail/service-detail.wxml-->
+<view class="service-modal" wx:if="{{isVisible}}">
+  <view class="modal-content">
+    <image src="/images/close.png" class="close-icon" bindtap="hide" />
+    <text class="service-detail-title">服务详情</text>
+    <view class="service-detail-item">
+      <text>支持退还: 开演前7天可申请退款，手续费5%。</text>
+    </view>
+    <view class="service-detail-item">
+      <text>支持选座: 购票时可选择具体座位，视场馆布局而定。</text>
+    </view>
+    <view class="service-detail-item">
+      <text>实名制购票: 需提供身份证信息，入场时验证。</text>
+    </view>
+    <view class="service-detail-item">
+      <text>支持自助换票: 开演前3天内可在线换票，限一次。</text>
+    </view>
+    <view class="service-detail-item">
+      <text>电子票: 支持手机出示二维码入场，无需纸质票。</text>
+    </view>
+  </view>
+</view>

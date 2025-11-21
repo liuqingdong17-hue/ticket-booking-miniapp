@@ -1,0 +1,29 @@
+/* pages/policy/policy.wxss */
+.page {
+  background: #f5f6fa;
+  min-height: 100vh;
+  padding: 30rpx;
+}
+
+.section {
+  background: #fff;
+  border-radius: 20rpx;
+  overflow: hidden;
+}
+
+.item {
+  padding: 30rpx;
+  font-size: 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1rpx solid #eee;
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.arrow {
+  color: #999;
+}

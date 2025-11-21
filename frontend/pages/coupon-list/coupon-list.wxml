@@ -1,0 +1,43 @@
+<!--pages/coupon-list/coupon-list.wxml-->
+<view class="page">
+
+<view class="coupon-list">
+  <block wx:for="{{couponList}}" wx:key="user_coupon_id">
+
+    <view class="coupon-card">
+
+      <!-- 左侧颜色栏 -->
+      <view class="coupon-left {{item.discount_type == 1 ? 'money' : 'discount'}}">
+        <text class="value">{{item.display_value}}</text>
+        <text class="type">{{item.discount_type == 1 ? '现金券' : '折扣券'}}</text>
+      </view>
+
+      <!-- 右侧内容（三行展示） -->
+      <view class="coupon-right">
+        <text class="line1">{{item.title}}</text>
+        <text class="line2">满 {{item.min_amount}} 元可用</text>
+        <text class="line3">{{item.valid_start_fmt}} - {{item.valid_end_fmt}}</text>
+      </view>
+
+      <!-- 状态按钮 -->
+      <button 
+        class="use-btn {{ item.status != 0 ? 'disabled' : '' }}"
+        data-id="{{item.user_coupon_id}}"
+        disabled="{{ item.status != 0 }}"
+        bindtap="goUse"
+      >
+        {{ item.status == 0 ? '去使用' : (item.status == 1 ? '已使用' : '已过期') }}
+      </button>
+
+    </view>
+
+  </block>
+</view>
+
+<!-- 空状态 -->
+<view wx:if="{{couponList.length === 0}}" class="empty">
+  <text class="icon">🎫</text>
+  <text class="text">暂无优惠券</text>
+</view>
+
+</view>

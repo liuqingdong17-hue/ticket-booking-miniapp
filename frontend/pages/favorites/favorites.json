@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "performance-list": "/components/performance-list/performance-list"
+  },
+  "navigationBarTitleText": "想看"
 }

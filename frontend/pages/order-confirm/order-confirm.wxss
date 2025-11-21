@@ -1,0 +1,161 @@
+.order-confirm-page {
+  background-color: #f8f8f8;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 120rpx;
+}
+
+/* ---------- 演出信息 ---------- */
+.section.performance {
+  display: flex;
+  background: #fff;
+  padding: 20rpx;
+  border-radius: 16rpx;
+  margin: 20rpx;
+  box-shadow: 0 4rpx 8rpx rgba(0,0,0,0.05);
+}
+.cover {
+  width: 180rpx;
+  height: 220rpx;
+  border-radius: 12rpx;
+  margin-right: 20rpx;
+}
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+.title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12rpx;
+}
+.time, .venue {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 6rpx;
+}
+
+/* ---------- 座位信息 ---------- */
+.section.seats {
+  background: #fff;
+  margin: 0 20rpx 20rpx;
+  border-radius: 16rpx;
+  padding: 20rpx;
+}
+.label {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 12rpx;
+}
+.seat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+.seat-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 26rpx;
+  color: #444;
+}
+
+/* ---------- 观演人 ---------- */
+.section.viewer {
+  background: #fff;
+  margin: 0 20rpx 20rpx;
+  border-radius: 16rpx;
+  padding: 20rpx;
+}
+.value {
+  margin-top: 12rpx;
+  font-size: 26rpx;
+  color: #333;
+}
+.placeholder {
+  color: #aaa;
+}
+.id-card {
+  margin-left: 16rpx;
+  font-size: 24rpx;
+  color: #888;
+}
+
+/* ---------- 联系手机号 ---------- */
+.section.phone {
+  background: #fff;
+  margin: 0 20rpx 20rpx;
+  border-radius: 16rpx;
+  padding: 20rpx;
+}
+.input {
+  margin-top: 12rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 8rpx;
+  padding: 12rpx;
+  font-size: 28rpx;
+}
+
+/* ---------- 价格信息 ---------- */
+.section.price {
+  background: #fff;
+  margin: 0 20rpx;
+  border-radius: 16rpx;
+  padding: 20rpx;
+}
+.line {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+  font-size: 26rpx;
+}
+.line.total {
+  font-weight: 600;
+  font-size: 30rpx;
+  margin-top: 10rpx;
+}
+.discount {
+  color: #ff4d4f;
+}
+.final {
+  color: #ff4d4f;
+  font-weight: 600;
+}
+
+/* ---------- 底部结算栏 ---------- */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120rpx;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30rpx;
+  border-top: 1rpx solid #eee;
+}
+.price-area {
+  font-size: 28rpx;
+  color: #333;
+}
+.price-area .price {
+  color: #ff4d4f;
+  font-weight: 600;
+  font-size: 32rpx;
+}
+.submit-btn {
+  right: -130rpx;
+  background: #ff4d4f;
+  color: #fff;
+  font-size: 30rpx;
+  border-radius: 50rpx;
+  width: 220rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+}

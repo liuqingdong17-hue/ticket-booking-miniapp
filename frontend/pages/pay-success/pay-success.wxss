@@ -1,0 +1,210 @@
+page {
+  background: linear-gradient(180deg, #ffe4ec 0%, #fff 60%);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.container {
+  padding-bottom: 150rpx;
+  box-sizing: border-box;
+}
+
+/* 顶部导航栏 */
+.custom-nav {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 160rpx; /* 导航栏整体高度 */
+  padding-top: 60rpx; /* 让内容下移一点，和胶囊齐 */
+  box-sizing: border-box;
+}
+
+
+/* 中间标题 */
+.nav-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 回首页 */
+.back-btn {
+  position: absolute;
+  left: -300rpx;
+  top: -108rpx; 
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  font-size: 28rpx;
+  color: #ff4b70;
+  background: linear-gradient(135deg, #fff, #ffeef2);
+  padding: 10rpx 24rpx;
+  border-radius: 40rpx;
+  box-shadow: 0 4rpx 10rpx rgba(255, 75, 112, 0.25);
+  border: 1rpx solid #ffd2dc;
+  z-index: 99;
+}
+
+/* 左箭头图标 */
+.arrow-icon {
+  width: 28rpx;
+  height: 28rpx;
+}
+
+/* 成功提示 */
+.success-header {
+  text-align: center;
+  margin-top: 10rpx;
+}
+
+.icon {
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.success-text {
+  color: #ff4b70;
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-top: 20rpx;
+}
+
+/* 门票卡片*/
+.ticket-card {
+  width: 90%;
+  margin: 60rpx auto;
+  background: #fff;
+  border-radius: 24rpx;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 左侧图片 */
+.cover {
+  width: 280rpx;
+  height: 280rpx;
+  border-radius: 24rpx 0 0 24rpx;
+  object-fit: cover;
+}
+
+/* 中间虚线分隔（图片与文字之间） */
+.dashed-divider {
+  width: 2rpx;
+  height: 200rpx;
+  border-left: 2rpx dashed rgb(12, 12, 12);
+  margin: auto 0;
+}
+
+/* 右侧信息 */
+.info {
+  flex: 1;
+  padding: 30rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+.venue, .time, .seat {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 8rpx;
+}
+
+
+
+/* 查看订单 */
+.actions {
+  width: 300rpx;
+  display: flex;
+  justify-content: center;
+  margin-top: 80rpx;
+}
+
+.btn {
+  width: 70%;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 50rpx;
+  text-align: center;
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: bold;
+  background: linear-gradient(90deg, #ff4b70, #ff7a90);
+  box-shadow: 0 8rpx 20rpx rgba(255, 75, 112, 0.4);
+}
+
+/* 🎊 彩带区域 */
+.confetti-area {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.confetti {
+  position: absolute;
+  top: -40rpx;
+  width: 14rpx;
+  height: 40rpx;
+  border-radius: 4rpx;
+  opacity: 0.9;
+  animation: fall 2.8s ease-in forwards;
+}
+
+.qrcode-area {
+  text-align: center;
+  margin-top: 60rpx; 
+}
+
+.qrcode-wrapper {
+  width: 400rpx;       
+  height: 400rpx;
+  background: #ffffff;
+  border-radius: 20rpx;
+  box-shadow: 0 8rpx 20rpx rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.qrcode-canvas {
+  width: 400rpx;          
+  height: 400rpx;
+  display: block;
+  background-color: #ffffff;
+  border-radius: 0;
+  padding: 0;
+}
+
+.qrcode-hint {
+  font-size: 26rpx;
+  color: #888;
+  margin-top: 24rpx;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-50rpx) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(130vh) rotate(720deg);
+    opacity: 0;
+  }
+}

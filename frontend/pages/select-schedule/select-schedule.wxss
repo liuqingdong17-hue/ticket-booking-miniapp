@@ -1,0 +1,53 @@
+/* pages/select-schedule/select-schedule.wxss */
+.schedule-page {
+  padding: 20rpx;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+.header {
+  font-size: 34rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.schedule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.schedule-item {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 20rpx;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.08);
+}
+
+.schedule-item.active {
+  border: 2rpx solid #ff4d4f;
+  background: #fff4f4;
+}
+
+.schedule-date {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.schedule-time {
+  color: #666;
+  margin-top: 8rpx;
+}
+
+.schedule-venue {
+  color: #999;
+  margin-top: 6rpx;
+  font-size: 26rpx;
+}
+
+.confirm-btn {
+  margin-top: 40rpx;
+  background-color: #ff4d4f;
+  color: white;
+  border-radius: 40rpx;
+}

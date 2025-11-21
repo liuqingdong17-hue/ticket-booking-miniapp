@@ -1,0 +1,130 @@
+/* pages/activity/activity.wxss */
+.activity-page {
+  padding-bottom: 40rpx;
+  background-color: #f8f8f8;
+}
+
+.loading, .empty {
+  text-align: center;
+  padding: 100rpx 0;
+  color: #888;
+}
+
+.banner {
+  width: 100%;
+  height: 400rpx;
+  border-radius: 0;
+}
+
+.info {
+  background: #fff;
+  padding: 30rpx;
+  margin-top: -10rpx;
+  border-radius: 20rpx 20rpx 0 0;
+}
+
+.title {
+  font-size: 34rpx;
+  font-weight: bold;
+  display: block;
+}
+
+.desc {
+  font-size: 28rpx;
+  margin: 20rpx 0;
+  color: #555;
+  display: block;
+}
+
+.time {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.coupons {
+  margin-top: 20rpx;
+  padding: 0 20rpx;
+}
+
+.section-title {
+  font-weight: bold;
+  font-size: 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.coupon-card {
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.05);
+}
+
+.left {
+  flex: 1;
+}
+
+.coupon-title {
+  font-weight: 600;
+  font-size: 30rpx;
+  display: block;
+}
+
+.coupon-desc {
+  color: #ff4d4f;
+  font-size: 28rpx;
+  margin: 10rpx 0;
+}
+
+.coupon-date {
+  color: #888;
+  font-size: 24rpx;
+}
+
+/* ✅ 按钮样式优化 */
+.receive-btn {
+  background-color: #ff4d4f;
+  color: #fff;
+  border: none;
+  border-radius: 30rpx;
+  padding: 10rpx 30rpx;
+  font-size: 26rpx;
+  height: auto;
+  align-self: center;
+  transition: background-color 0.3s;
+}
+
+.receive-btn:active {
+  background-color: #e33c3d;
+}
+
+/* ✅ 已领取禁用态 */
+.receive-btn[disabled] {
+  background-color: #ccc;
+  color: #f8f8f8;
+  pointer-events: none;
+}
+
+/* 内容 */
+.activity-detail {
+  margin-top: 40rpx;
+  padding: 24rpx;
+  background-color: #fff;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.05);
+}
+
+.activity-detail .section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  margin-bottom: 20rpx;
+  color: #222;
+}
+
+rich-text {
+  line-height: 1.8;
+  font-size: 28rpx;
+  color: #333;
+}

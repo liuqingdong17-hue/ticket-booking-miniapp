@@ -1,0 +1,49 @@
+<view class="container">
+  <!-- 优惠券列表 -->
+  <view class="coupon-list">
+    <block wx:for="{{couponList}}" wx:key="user_coupon_id" wx:for-item="item">
+      <view
+        class="coupon-card {{selectedCouponId === item.user_coupon_id ? 'active' : ''}}"
+        bindtap="onSelectCoupon"
+        data-id="{{item.user_coupon_id}}"
+      >
+        <!-- 左侧：金额 / 折扣 -->
+        <view class="coupon-left">
+          <text class="coupon-value">
+            {{ item.display_value }}
+          </text>
+          <text class="coupon-type">
+            {{ item.discount_type === 1 ? '现金券' : '折扣券' }}
+          </text>
+        </view>
+
+        <!-- 右侧：描述 + 时间 -->
+        <view class="coupon-right">
+          <text class="coupon-title">{{ item.title }}</text>
+          <text class="coupon-condition">满{{ item.min_amount }}元可用</text>
+          <text class="coupon-date">
+            {{ item.valid_start_fmt }} - {{ item.valid_end_fmt }}
+          </text>
+        </view>
+
+        <!-- 选中打钩 -->
+        <view wx:if="{{selectedCouponId === item.user_coupon_id}}" class="check-icon">✔</view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:if="{{couponList.length === 0}}" class="empty-section">
+    <view class="empty-icon">🎟️</view>
+    <text class="empty-title">暂无可用优惠券</text>
+  </view>
+
+  <!-- 右下角确认按钮 -->
+  <button
+    class="confirm-btn"
+    bindtap="onConfirm"
+    disabled="{{!selectedCouponId}}"
+  >
+    确定使用
+  </button>
+</view>

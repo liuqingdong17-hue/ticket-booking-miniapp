@@ -1,0 +1,6 @@
+/* pages/policy-detail/privacy.wxss */
+.page { background: #fff; min-height: 100vh; }
+.content { padding: 30rpx; }
+.title { font-size: 36rpx; font-weight: 700; margin-bottom: 20rpx; }
+.subtitle { font-size: 30rpx; font-weight: 600; margin-top: 30rpx; margin-bottom: 10rpx; }
+.text { font-size: 28rpx; line-height: 48rpx; color: #444; }

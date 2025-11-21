@@ -1,0 +1,57 @@
+/* pages/license/license.wxss */
+.page {
+  background-color: #f5f6fa;
+  min-height: 100vh;
+}
+
+.content {
+  padding: 30rpx;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: 700;
+  margin-bottom: 30rpx;
+  color: #333;
+}
+
+.section {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 20rpx 30rpx;
+}
+
+.item {
+  border-bottom: 1rpx solid #eee;
+  padding: 26rpx 0;
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 10rpx;
+}
+
+.value {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 40rpx;
+}
+
+.license-img {
+  width: 100%;
+  border-radius: 18rpx;
+  margin-top: 20rpx;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 40rpx;
+  font-size: 24rpx;
+  color: #999;
+}

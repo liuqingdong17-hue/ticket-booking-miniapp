@@ -1,0 +1,40 @@
+<view class="page">
+  <view class="logo-wrapper">
+    <image src="/images/logo.png" class="logo" />
+    <text class="slogan">欢迎登录，探索精彩演出</text>
+  </view>
+
+  <view class="login-form">
+    <view class="tabs">
+      <text class="{{activeTab === 'login' ? 'active' : ''}}" bindtap="switchTab" data-tab="login">登录</text>
+      <text class="{{activeTab === 'register' ? 'active' : ''}}" bindtap="switchTab" data-tab="register">注册</text>
+      <text class="{{activeTab === 'forgot' ? 'active' : ''}}" bindtap="switchTab" data-tab="forgot">忘记密码</text>
+    </view>
+
+    <view class="form" wx:if="{{activeTab === 'login'}}">
+      <input type="number" placeholder="请输入手机号" value="{{formData.phone}}" bindinput="inputChange" data-field="phone" />
+      <input type="password" placeholder="请输入密码" value="{{formData.password}}" bindinput="inputChange" data-field="password" />
+      <button class="submit-btn" bindtap="onLogin">登录</button>
+    </view>
+
+    <view class="form" wx:if="{{activeTab === 'register'}}">
+      <input type="text" placeholder="请输入用户名" value="{{formData.username}}" bindinput="inputChange" data-field="username" />
+      <input type="number" placeholder="请输入手机号" value="{{formData.phone}}" bindinput="inputChange" data-field="phone" />
+      <input type="password" placeholder="请输入密码" value="{{formData.password}}" bindinput="inputChange" data-field="password" />
+      <button class="submit-btn" bindtap="onRegister">注册</button>
+    </view>
+
+    <view class="form" wx:if="{{activeTab === 'forgot'}}">
+      <input type="number" placeholder="请输入手机号" value="{{formData.phone}}" bindinput="inputChange" data-field="phone" />
+      <view class="code-wrapper">
+        <input type="text" placeholder="请输入验证码" value="{{formData.code}}" bindinput="inputChange" data-field="code" />
+        <button class="code-btn" disabled="{{codeDisabled}}" bindtap="getCode">{{codeText}}</button>
+      </view>
+      <input type="password" placeholder="请输入新密码" value="{{formData.newPassword}}" bindinput="inputChange" data-field="newPassword" />
+      <button class="submit-btn" bindtap="onResetPassword">重置密码</button>
+    </view>
+  </view>
+
+  <view class="tips">操作即同意《用户协议》和《隐私政策》</view>
+  <view wx:if="{{loading}}" class="loading">处理中...</view>
+</view>

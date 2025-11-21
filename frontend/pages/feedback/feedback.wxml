@@ -1,0 +1,49 @@
+<!--pages/feedback/feedback.wxml-->
+<view class="page">
+  
+  <view class="section-title">反馈类型</view>
+  <picker mode="selector" range="{{typeList}}" bindchange="onTypeChange">
+    <view class="picker-box">
+      <text>{{ typeList[selectedType] }}</text>
+      <text class="arrow">></text>
+    </view>
+  </picker>
+
+  <view class="section-title">反馈内容</view>
+  <textarea 
+    class="textarea"
+    placeholder="请描述你遇到的问题，我们会尽快处理～"
+    value="{{content}}"
+    bindinput="onContentInput"
+  />
+
+  <view class="section-title">上传截图（可选）</view>
+  <view class="img-list">
+    <block wx:for="{{images}}" wx:key="*this">
+  <view class="img-wrapper">
+    <image class="img" src="{{item}}" mode="aspectFill" bindtap="previewImg" data-url="{{item}}"></image>
+
+    <!-- 删除按钮（右上角小叉号） -->
+    <view class="delete-btn" data-index="{{index}}" bindtap="removeImg">×</view>
+  </view>
+</block>
+
+
+    <view class="img upload-btn" bindtap="chooseImg">
+      <text>+</text>
+    </view>
+  </view>
+
+  <view class="section-title">联系方式</view>
+  <input 
+    class="input"
+    placeholder="请输入手机号"
+    value="{{phone}}"
+    bindinput="onPhoneInput"
+    maxlength="11"
+  />
+
+  <button class="submit-btn" bindtap="submitFeedback">
+    提交反馈
+  </button>
+</view>

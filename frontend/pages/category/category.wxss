@@ -1,0 +1,126 @@
+/** pages/category/category.wxss **/
+/* 顶部导航栏 */
+.top-nav {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 30rpx;
+  background-color: #fff;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+.back-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 20rpx;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+/* 近期热门 */
+.hot-section {
+  padding: 20rpx 30rpx;
+  background-color: #fff;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.hot-scroll {
+  white-space: nowrap;
+}
+
+.hot-card {
+  display: inline-block;
+  width: 240rpx;
+  margin-right: 20rpx;
+  background-color: #f8f8f8;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.image-wrapper {
+  position: relative;
+}
+
+.hot-image {
+  width: 240rpx;
+  height: 320rpx;
+}
+
+.city-tag {
+  position: absolute;
+  top: 10rpx;
+  right: 10rpx;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+}
+
+.hot-info {
+  padding: 10rpx;
+}
+
+.hot-name {
+  font-size: 28rpx;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hot-price {
+  font-size: 26rpx;
+  color: #ff4d4f;
+  font-weight: bold;
+}
+
+/* 推荐/筛选头部（复用首页样式） */
+.recommend-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 24rpx 0;  
+  width: 100%;  
+  font-size: 36rpx;
+  font-weight: bold;
+  background-color: #ffffff;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+.title {
+  margin-right: auto;  
+  padding-left: 32rpx;  
+}
+
+.filter-btn {
+  font-size: 28rpx;
+  padding: 8rpx 20rpx;
+  background-color: #ff4d4f;
+  color: #fff;
+  border-radius: 32rpx;
+  line-height: 1;
+  margin-right: 20rpx;  
+  margin-left: 20rpx;  
+}
+
+/* 空数据提示 */
+.empty {
+  text-align: center;
+  color: #888;
+  padding: 20rpx;
+}
+
+/* 加载提示 */
+.loading {
+  text-align: center;
+  padding: 20rpx;
+  color: #888;
+}

@@ -1,12 +1,45 @@
 {
   "pages": [
+    "pages/login/login",
     "pages/index/index",
     "pages/favorites/favorites",
-    "pages/profile/profile"
+    "pages/profile/profile",
+    "pages/category/category",
+    "pages/detail/detail",
+    "pages/artistDetail/artistDetail",
+    "pages/search/search",
+    "pages/activity/activity",
+    "pages/select-schedule/select-schedule",
+    "pages/seat-select/seat-select",
+    "pages/order-confirm/order-confirm",
+    "pages/viewer-select/viewer-select",
+    "pages/confirm-order/confirm-order",
+    "pages/add-viewer/add-viewer",
+    "pages/coupon-select/coupon-select",
+    "pages/order-detail/order-detail",
+    "pages/ticket/ticket",
+    "pages/pay-success/pay-success",
+    "pages/settings/settings",
+    "pages/follow/follow",
+    "pages/coupon-list/coupon-list",
+    "pages/order-list/order-list",
+    "pages/feedback/feedback",
+    "pages/policy/policy",
+    "pages/policy-detail/user-agreement",
+    "pages/policy-detail/privacy",
+    "pages/policy-detail/ticket-rules",
+    "pages/policy-detail/refund-rules",
+    "pages/license/license"
   ],
   "window": {
     "navigationBarTitleText": "演出预订"
   },
+  "usingComponents": {
+    "performance-list": "/components/performance-list/performance-list",
+    "filter-panel": "/components/filter-panel/filter-panel",
+    "service-detail": "/components/service-detail/service-detail"
+  },
+  "sitemapLocation": "sitemap.json",
   "tabBar": {
     "list": [
       {
@@ -32,5 +65,13 @@
     "selectedColor": "#d81e06",
     "backgroundColor": "#fff",
     "borderStyle": "black"
-  }
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的小程序将用于推荐本地演出，需要获取您的位置信息"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation"
+  ]
 }

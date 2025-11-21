@@ -1,0 +1,41 @@
+<!--pages/policy-detail/privacy.wxml-->
+<view class="page">
+  <scroll-view scroll-y="true" class="content">
+
+    <view class="title">隐私政策</view>
+
+    <view class="text">
+      本隐私政策旨在说明我们如何收集、使用、保护您的个人信息。使用本平台即表示同意本政策。
+    </view>
+
+    <view class="subtitle">一、我们收集的信息</view>
+    <view class="text">1. 登录信息：手机号、微信头像、昵称等</view>
+    <view class="text">2. 订单信息：演出、票档、金额、观演人信息</view>
+    <view class="text">3. 设备信息：设备型号、网络环境、日志记录</view>
+    <view class="text">4. 客服与反馈信息</view>
+
+    <view class="subtitle">二、我们如何使用信息</view>
+    <view class="text">用于订单生成、出票、验证、客服支持、功能改进等。</view>
+
+    <view class="subtitle">三、信息的存储与安全</view>
+    <view class="text">我们采取加密、权限控制等方式保护您的信息安全。</view>
+
+    <view class="subtitle">四、信息共享与披露</view>
+    <view class="text">
+      我们不会向无关第三方提供您的信息。仅在完成订单服务、法律要求时披露必要信息。
+    </view>
+
+    <view class="subtitle">五、第三方服务</view>
+    <view class="text">如微信支付、地图等服务，由各自隐私政策约束。</view>
+
+    <view class="subtitle">六、您的权利</view>
+    <view class="text">包括查询、更正、删除、撤回授权、注销账号等权利。</view>
+
+    <view class="subtitle">七、未成年人保护</view>
+    <view class="text">未成年人应在监护人指导下使用本平台。</view>
+
+    <view class="subtitle">八、隐私政策更新</view>
+    <view class="text">本政策可能根据业务或法律变化进行调整。</view>
+
+  </scroll-view>
+</view>

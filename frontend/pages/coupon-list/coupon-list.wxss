@@ -1,0 +1,100 @@
+/* pages/coupon-list/coupon-list.wxss */
+.page {
+  background: #f7f7f7;
+  min-height: 100vh;
+  padding: 20rpx;
+}
+
+.coupon-card {
+  display: flex;
+  background: #fff;
+  border-radius: 20rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 左侧颜色栏 */
+.coupon-left {
+  width: 180rpx;
+  padding: 30rpx 10rpx;
+  text-align: center;
+  color: #fff;
+}
+.coupon-left.money {
+  background: linear-gradient(135deg, #ff7875, #ff4d6d);
+}
+.coupon-left.discount {
+  background: linear-gradient(135deg, #ff9f43, #ff6f20);
+}
+
+.value {
+  font-size: 42rpx;
+  font-weight: 700;
+}
+.type {
+  font-size: 24rpx;
+  margin-top: 10rpx;
+}
+
+/* 右侧三行布局 */
+.coupon-right {
+  flex: 1;
+  padding: 30rpx 150rpx 30rpx 30rpx;  /* ⭐ 右侧留空间给按钮 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.line1 {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+.line2 {
+  font-size: 28rpx;
+  color: #999;
+  margin-bottom: 8rpx;
+}
+
+.line3 {
+  font-size: 24rpx;
+  color: #bbb;
+}
+
+/* 使用按钮 */
+.use-btn {
+  position: absolute;
+  right: 20rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #ff4d6d;
+  color: #fff;
+  font-size: 26rpx;
+  padding: 14rpx 36rpx;
+  border-radius: 40rpx;
+  box-shadow: 0 6rpx 12rpx rgba(255,77,79,0.3);
+}
+
+.use-btn.disabled {
+  background: #ccc !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+/* 空状态 */
+.empty {
+  text-align: center;
+  margin-top: 200rpx;
+  color: #aaa;
+}
+.icon {
+  font-size: 80rpx;
+}
+.text {
+  margin-top: 20rpx;
+  font-size: 30rpx;
+}

@@ -1,3 +1,7 @@
 {
+  "usingComponents": {
+    "filter-panel": "/components/filter-panel/filter-panel",
+    "performance-list": "/components/performance-list/performance-list"
+  },
   "navigationBarTitleText": "演出推荐"
 }

@@ -1,0 +1,50 @@
+<!--pages/policy-detail/user-agreement.wxml-->
+<view class="page">
+  <scroll-view scroll-y="true" class="content">
+
+    <view class="title">用户服务协议</view>
+
+    <view class="text">
+      欢迎使用本演出门票在线预订小程序（以下简称“本平台”）。使用本平台即表示您已充分阅读并同意本协议全部内容。
+    </view>
+
+    <view class="subtitle">一、协议主体</view>
+    <view class="text">1. 本协议由平台运营方与使用本平台的用户共同组成。</view>
+    <view class="text">2. 未满 18 周岁的用户在监护人指导下使用本平台。</view>
+
+    <view class="subtitle">二、服务内容</view>
+    <view class="text">本平台向用户提供演出浏览、在线购票、订单管理、电子票展示等相关服务。</view>
+
+    <view class="subtitle">三、账户注册与使用</view>
+    <view class="text">1. 用户应保证提交信息真实、准确、完整。</view>
+    <view class="text">2. 用户需妥善保管账户，不得转借或泄露。</view>
+
+    <view class="subtitle">四、用户行为规范</view>
+    <view class="text">用户不得发布违法信息、破坏系统、攻击服务器等行为。</view>
+
+    <view class="subtitle">五、订单与购票</view>
+    <view class="text">下单前请核对演出信息。支付成功后，通常不支持无理由退票。</view>
+
+    <view class="subtitle">六、费用与支付</view>
+    <view class="text">用户应按照页面提示通过微信支付完成订单支付。</view>
+
+    <view class="subtitle">七、个人信息与隐私保护</view>
+    <view class="text">平台将依据《隐私政策》保护、管理和使用您的个人信息。</view>
+
+    <view class="subtitle">八、知识产权</view>
+    <view class="text">本平台的界面、内容、代码等均受法律保护，未经许可不得使用。</view>
+
+    <view class="subtitle">九、服务中断与变更</view>
+    <view class="text">因不可抗力导致的服务异常，平台将在合理范围内进行通知。</view>
+
+    <view class="subtitle">十、免责声明</view>
+    <view class="text">因不可抗力、演出主办方原因等导致的损失，平台在法律范围内免责。</view>
+
+    <view class="subtitle">十一、协议的变更与终止</view>
+    <view class="text">平台可根据业务需要对协议内容进行更新。</view>
+
+    <view class="subtitle">十二、法律适用与争议解决</view>
+    <view class="text">本协议适用中华人民共和国法律，争议由平台所在地法院管辖。</view>
+
+  </scroll-view>
+</view>

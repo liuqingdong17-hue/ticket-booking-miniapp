@@ -1,0 +1,90 @@
+.filter-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #f8f8f8;
+  border-top-left-radius: 16rpx;
+  border-top-right-radius: 16rpx;
+  padding: 20rpx;
+  z-index: 1000;
+}
+
+.filter-content {
+  padding: 10rpx 0;
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  padding: 15rpx;
+  background-color: #fff;
+  border-radius: 8rpx;
+  margin-bottom: 10rpx;
+}
+
+.filter-label {
+  width: 100rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.filter-value {
+  flex: 1;
+  padding: 10rpx;
+  color: #666;
+}
+
+.picker-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 100rpx;
+  background-color: #fff;
+  border-radius: 8rpx;
+  padding: 10rpx;
+  z-index: 1001;
+}
+
+.picker-scroller {
+  height: 100%;
+}
+
+.picker-item {
+  padding: 10rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.locate-btn {
+  text-align: center;
+  padding: 10rpx;
+  background-color: #ff4d4f;
+  color: #fff;
+  border-radius: 8rpx;
+  margin-top: 10rpx;
+}
+
+.filter-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20rpx;
+}
+
+.cancel-btn, .confirm-btn,.reset-btn {
+  padding: 10rpx 20rpx;
+  border-radius: 8rpx;
+  color: #fff;
+}
+
+.cancel-btn {
+  background-color: #ccc;
+}
+
+.confirm-btn {
+  background-color: #ff4d4f;
+}
+
+.reset-btn {
+  background-color: #ff4d4f;
+}
