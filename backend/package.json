@@ -21,6 +21,8 @@
     "multer": "^2.0.2",
     "mysql2": "^3.14.3",
     "node-cron": "^4.2.1",
+    "openai": "^6.9.1",
+    "qrcode": "^1.5.4",
     "request": "^2.88.2",
     "wechat-crypto": "^0.0.2",
     "wx-js-utils": "^1.0.0"

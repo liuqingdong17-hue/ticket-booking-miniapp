@@ -159,3 +159,97 @@
   height: 80rpx;
   line-height: 80rpx;
 }
+
+/* 新增 不可选座的样式 */
+/* ========= 通用：座位/票档 行 ========= */
+.seat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 20rpx 10rpx;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  color: #444;
+  margin-bottom: 10rpx;
+}
+
+/* 左边的文字：座位 或 票档名称 */
+.seat-text {
+  color: #333;
+  font-size: 28rpx;
+}
+
+/* 右侧金额：座位价或票档价 */
+.seat-price {
+  color: #ff4d4f;
+  font-weight: 600;
+  font-size: 28rpx;
+}
+
+/* 保持 seats 区域风格一致 */
+.section.seats {
+  background: #fff;
+  margin: 0 20rpx 20rpx;
+  border-radius: 16rpx;
+  padding: 20rpx;
+}
+
+.seat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+/* ---------- 支付方式 ---------- */
+.section.pay-method {
+  background: #fff;
+  margin: 0 20rpx 20rpx;
+  border-radius: 16rpx;
+  padding: 20rpx;
+}
+
+.pay-row {
+  margin-top: 12rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12rpx 0;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+}
+
+.pay-icon {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  margin-right: 16rpx;
+}
+
+.pay-name {
+  font-size: 28rpx;
+  color: #333;
+}
+
+/* 未选中的空圈 */
+.unchecked-circle {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 20rpx;
+  border: 4rpx solid #ddd;
+}
+
+/* 选中后的红色圆圈 + 勾 */
+.checked-circle {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 20rpx;
+  background: #ff4d4f;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22rpx;
+}

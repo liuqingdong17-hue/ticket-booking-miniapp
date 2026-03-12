@@ -1,5 +1,5 @@
 <!--pages/select-schedule/select-schedule.wxml-->
-<view class="schedule-page">
+<!-- <view class="schedule-page">
   <view class="header">请选择场次</view>
 
   <view class="schedule-list">
@@ -12,6 +12,30 @@
         <view class="schedule-date">{{item.date}}</view>
         <view class="schedule-time">{{item.time}}</view>
         <view class="schedule-venue">{{item.venue_name}}</view>
+      </view>
+    </block>
+  </view>
+
+  <button class="confirm-btn" bindtap="onConfirm">确定</button>
+</view> -->
+<!--pages/select-schedule/select-schedule.wxml-->
+<view class="schedule-page">
+  <view class="header">请选择场次</view>
+
+  <view class="schedule-list">
+    <block wx:for="{{schedules}}" wx:key="id">
+      <view
+        class="schedule-item {{selectedScheduleId === item.id ? 'active' : ''}} {{item.isPast ? 'disabled' : ''}}"
+        bindtap="onSelectSchedule"
+        data-id="{{item.id}}"
+        data-disabled="{{item.isPast}}"
+      >
+        <view class="schedule-date">{{item.date}}</view>
+        <view class="schedule-time">{{item.time}}</view>
+        <view class="schedule-venue">{{item.venue_name}}</view>
+
+        <!-- ✅ 过期提示 -->
+        <view wx:if="{{item.isPast}}" class="past-tag">已结束</view>
       </view>
     </block>
   </view>

@@ -1,8 +1,9 @@
 <view class="order-confirm-page">
 
-<!-- 演出信息 -->
+<!-- ======= 演出信息 ======= -->
 <view class="section performance">
   <image class="cover" src="{{performance.cover_url}}" mode="aspectFill"></image>
+
   <view class="info">
     <view class="title">{{performance.name}}</view>
     <view class="time">{{schedule.date}} {{schedule.time}}</view>
@@ -10,64 +11,112 @@
   </view>
 </view>
 
-<!-- 座位信息 -->
-<view class="section seats">
-  <view class="label">已选座位</view>
-  <view class="seat-list">
-    <block wx:for="{{selectedSeats}}" wx:key="id">
-      <view class="seat-item">
-        <text>
-          {{item.area_name || ''}}{{item.row_no ? item.row_no + '排' : ''}}{{item.seat_no ? item.seat_no + '座' : ''}}
-        </text>
-        <text>￥{{item.price || ticketType.price}}</text>
-      </view>
-    </block>
-  </view>
-</view>
 
-<!-- 观演人 -->
+<!-- ======= 可选座模式：显示座位列表 ======= -->
+<block wx:if="{{mode === 'seat'}}">
+  <view class="section seats">
+    <view class="label">已选座位</view>
+
+    <view class="seat-list">
+      <block wx:for="{{selectedSeats}}" wx:key="id">
+        <view class="seat-item">
+          <text class="seat-text">
+            {{item.area_name}}{{item.row_no}}排{{item.seat_no}}座
+          </text>
+          <text class="seat-price">￥{{item.price}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+</block>
+
+
+<!-- ======= 不可选座模式：显示票档信息 ======= -->
+<block wx:if="{{mode === 'ticket'}}">
+  <view class="section seats">
+    <view class="label">选择的票档</view>
+
+    <view class="seat-item">
+      <text class="seat-text">{{ticketType.name}}</text>
+      <text class="seat-price">
+        ￥{{ticketType.price}} × {{ticketCount}}
+      </text>
+    </view>
+  </view>
+</block>
+
+
+<!-- ======= 观演人信息 ======= -->
 <view class="section viewer" bindtap="onSelectViewer">
   <view class="label">观演人信息</view>
+
   <view class="value">
     <block wx:if="{{selectedViewer}}">
       <text>{{selectedViewer.name}}</text>
       <text class="id-card">{{selectedViewer.id_card}}</text>
     </block>
+
     <block wx:else>
       <text class="placeholder">请选择观演人 ></text>
     </block>
   </view>
 </view>
 
-<!-- 联系手机号 -->
+
+<!-- ======= 联系手机号 ======= -->
 <view class="section phone">
   <view class="label">联系电话</view>
-  <input class="input" placeholder="请输入手机号" value="{{contactPhone}}" bindinput="onInputPhone" />
+  <input class="input" placeholder="请输入手机号"
+         value="{{contactPhone}}" bindinput="onInputPhone" />
 </view>
 
-<!-- 票价小计 -->
+<!-- ======= 支付方式 ======= -->
+<view class="section pay-method">
+  <view class="label">支付方式</view>
+
+  <view class="pay-row" bindtap="onSelectPayWechat">
+    <view class="left">
+      <image class="pay-icon" src="/images/wechat.png"></image>
+      <text class="pay-name">微信</text>
+    </view>
+
+    <view wx:if="{{payMethod === 'wechat'}}" class="checked-circle">✔</view>
+    <view wx:else class="unchecked-circle"></view>
+  </view>
+</view>
+
+<!-- ======= 价格统计 ======= -->
 <view class="section price">
+
   <view class="line">
     <text>票价合计</text>
     <text>￥{{totalPrice}}</text>
   </view>
+
   <view class="line" bindtap="onSelectCoupon">
     <text>优惠券</text>
     <text class="discount">-￥{{discountCoupon}}</text>
   </view>
+
   <view class="line total">
     <text>实付金额</text>
     <text class="final">￥{{finalPrice}}</text>
   </view>
 </view>
 
-<!-- 提交按钮 -->
+
+<!-- ======= 底部支付按钮 ======= -->
 <view class="bottom-bar">
   <view class="price-area">
     <text>合计：</text>
     <text class="price">￥{{finalPrice}}</text>
   </view>
-  <button class="submit-btn" bindtap="onSubmit" loading="{{loading}}">立即支付</button>
+
+  <button class="submit-btn"
+          bindtap="onSubmit"
+          loading="{{loading}}">
+    立即支付
+  </button>
 </view>
 
 </view>

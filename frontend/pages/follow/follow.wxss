@@ -4,35 +4,6 @@
   min-height: 100vh;
 }
 
-.header {
-  padding: 20rpx 30rpx;
-  background: #fff;
-  text-align: center;
-  font-size: 36rpx;
-  font-weight: bold;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.tabs {
-  display: flex;
-  justify-content: center;
-  padding: 20rpx 0;
-  background: #fff;
-}
-
-.tab {
-  font-size: 30rpx;
-  color: #aaa;
-  margin: 0 40rpx;
-}
-
-.tab.active {
-  color: #ff4d6d;
-  font-weight: 500;
-  border-bottom: 4rpx solid #ff4d6d;
-  padding-bottom: 8rpx;
-}
-
 .artist-item {
   display: flex;
   background: #fff;

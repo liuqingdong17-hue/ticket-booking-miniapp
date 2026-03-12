@@ -3,5 +3,8 @@
     "filter-panel": "/components/filter-panel/filter-panel",
     "performance-list": "/components/performance-list/performance-list"
   },
-  "navigationBarTitleText": "演出推荐"
+  "navigationBarTitleText": "演出推荐",
+  "navigationBarBackgroundColor": "#ff4d6d",
+  "navigationBarTextStyle": "black",
+  "backgroundTextStyle": "light"
 }

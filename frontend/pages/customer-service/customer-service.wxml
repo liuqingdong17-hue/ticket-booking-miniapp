@@ -1,0 +1,32 @@
+<!--pages/customer-service/customer-service.wxml-->
+<view class="page">
+  <!-- 顶部栏
+  <view class="header">在线客服</view> -->
+
+  <!-- 聊天窗口 -->
+  <scroll-view scroll-y class="chat-window" id="chatScroll" scroll-with-animation>
+    <block wx:for="{{messages}}" wx:key="id">
+      
+      <!-- AI 消息 -->
+      <view wx:if="{{item.sender=='ai'}}" class="msg-row ai-row">
+        <image class="avatar" src="/images/ai-avatar.png"></image>
+        <view class="bubble ai-bubble">{{item.text}}</view>
+      </view>
+
+      <!-- 用户消息 -->
+      <view wx:elif="{{item.sender=='user'}}" class="msg-row user-row">
+        <view class="bubble user-bubble">{{item.text}}</view>
+        <image class="avatar" src="{{user.avatar}}"></image>
+      </view>
+    </block>
+  </scroll-view>
+
+  <!-- 底部输入栏 -->
+  <view class="bottom-bar">
+    <input class="input" placeholder="亲，请一句话描述您的问题哦~" bindinput="onInput" value="{{inputText}}" />
+    <button class="send-btn" bindtap="sendMsg">发送</button>
+  </view>
+
+  <!-- 转人工 -->
+  <view class="switch-human" bindtap="goHuman">转人工客服</view>
+</view>

@@ -1,80 +1,92 @@
 <view class="page">
   <scroll-view scroll-y="true" class="content">
 
-<!-- 未结束 -->
-<block wx:if="{{usableList.length > 0}}">
-  <view class="section-title">可使用</view>
+    <!-- 未结束 -->
+    <block wx:if="{{usableList.length > 0}}">
+      <view class="section-title">可使用</view>
 
-  <block wx:for="{{usableList}}" wx:key="order_id">
-    <view class="ticket-card usable" bindtap="goDetail" data-id="{{item.order_id}}" data-ended="{{item.ended}}"
->
+      <block wx:for="{{usableList}}" wx:key="order_id">
+        <view class="ticket-card usable"
+          bindtap="goDetail"
+          data-id="{{item.order_id}}"
+          data-ended="{{item.ended}}">
 
-      <!-- 左侧封面 -->
-      <view class="left">
-        <image class="cover" src="{{item.cover}}" mode="aspectFill"></image>
+          <view class="left">
+            <image class="cover" src="{{item.cover}}" mode="aspectFill"></image>
 
-        <view class="badge">
-          <text class="badge-count">{{item.ticket_count}}</text>
-          <text class="badge-text">张票</text>
+            <view class="badge">
+              <text class="badge-count">{{item.ticket_count}}</text>
+              <text class="badge-text">张票</text>
+            </view>
+          </view>
+
+          <view class="right">
+            <view class="title">{{item.performance_name}}</view>
+            <view class="line">{{item.city}} | {{item.venue_name}}</view>
+            <view class="line">{{item.show_time}}</view>
+
+            <view class="dot-line"></view>
+
+            <view class="btn-row">
+              <view class="btn-small">转送</view>
+              <view class="btn-small">纪念票</view>
+              <view class="ticket-type">电子票</view>
+            </view>
+          </view>
         </view>
-      </view>
+      </block>
+    </block>
 
-      <!-- 右侧信息 -->
-      <view class="right">
-        <view class="title">{{item.performance_name}}</view>
+    <!-- 历史票标题 -->
+    <block wx:if="{{historyList.length > 0}}">
+      <view class="section-title">历史票</view>
+    </block>
 
-        <view class="line">{{item.city}} | {{item.venue_name}}</view>
-        <view class="line">{{item.show_time}}</view>
+    <!-- 历史票 -->
+    <block wx:for="{{historyList}}" wx:key="order_id">
+      <view class="ticket-card history"
+        bindtap="goDetail"
+        data-id="{{item.order_id}}"
+        data-performance-id="{{item.performance_id}}"
+        data-ended="{{item.ended}}">
 
-        <view class="dot-line"></view>
+        <view class="left">
+          <image class="cover" src="{{item.cover}}" mode="aspectFill"></image>
 
-        <view class="btn-row">
-          <view class="btn-small">转送</view>
-          <view class="btn-small">纪念票</view>
-          <view class="ticket-type">电子票</view>
+          <view class="badge history-badge">
+            <text class="badge-count">{{item.ticket_count}}</text>
+            <text class="badge-text">张票</text>
+          </view>
         </view>
+
+        <view class="right">
+          <view class="title">{{item.performance_name}}</view>
+          <view class="line">{{item.city}} | {{item.venue_name}}</view>
+          <view class="line">{{item.show_time}}</view>
+
+          <view class="dot-line"></view>
+
+          <view class="btn-row">
+            <!-- ⭐ 必须阻止冒泡，否则 goDetail 会抢先触发 -->
+            <view wx:if="{{item.refund_status !== 'approved'}}"
+              class="btn-comment"
+              bindtap="goReview"
+              data-id="{{item.order_id}}"
+              data-performance-id="{{item.performance_id}}"
+              catchtap
+            >
+              去评价
+            </view>
+            <view class="ticket-type">电子票</view>
+          </view>
+        </view>
+
+        <view class="stamp">
+          <text>{{ item.refund_status === 'approved' ? '已退款' : '已结束' }}</text>
+        </view>
+
       </view>
-    </view>
-  </block>
-</block>
+    </block>
 
-<!-- 历史票标题 -->
-<block wx:if="{{historyList.length > 0}}">
-  <view class="section-title">历史票</view>
-</block>
-
-<!-- 历史票 -->
-<block wx:for="{{historyList}}" wx:key="order_id">
-  <view class="ticket-card history" bindtap="goDetail" data-id="{{item.order_id}}" data-ended="{{item.ended}}"
->
-
-    <view class="left">
-      <image class="cover" src="{{item.cover}}" mode="aspectFill"></image>
-
-      <view class="badge history-badge">
-        <text class="badge-count">{{item.ticket_count}}</text>
-        <text class="badge-text">张票</text>
-      </view>
-    </view>
-
-    <view class="right">
-      <view class="title">{{item.performance_name}}</view>
-
-      <view class="line">{{item.city}} | {{item.venue_name}}</view>
-      <view class="line">{{item.show_time}}</view>
-
-      <view class="dot-line"></view>
-
-      <view class="btn-row">
-        <view class="btn-comment">去评价</view>
-        <view class="ticket-type">电子票</view>
-      </view>
-    </view>
-
-    <!-- 已结束水印 -->
-    <view class="stamp"><text>已结束</text></view>
-  </view>
-</block>
-
-</scroll-view>
+  </scroll-view>
 </view>

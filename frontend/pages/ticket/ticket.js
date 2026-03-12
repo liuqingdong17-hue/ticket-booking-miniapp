@@ -1,4 +1,3 @@
-// pages/ticket/ticket.js
 Page({
   data: {
     usableList: [],
@@ -15,57 +14,56 @@ Page({
 
   loadTickets() {
     const token = wx.getStorageSync('token');
-    console.log("发送 token:", token);
 
     wx.request({
       url: 'http://localhost:3000/api/order/allTickets',
       method: 'GET',
       header: {
-        Authorization: "Bearer " + token  // ★ 关键修复点
+        Authorization: "Bearer " + token
       },
       success: (res) => {
-        console.log('allTickets res:', res.data);
-
-        if (res.data.status !== 0) {
-          console.warn('接口返回非 0 状态：', res.data.status);
-          return;
-        }
+        if (res.data.status !== 0) return;
 
         const list = Array.isArray(res.data.data) ? res.data.data : [];
 
-        const usable = list.filter(item => !item.ended);
-        const history = list.filter(item => item.ended);
-
-        console.log("usable:", usable);
-        console.log("history:", history);
-
         this.setData({
-          usableList: usable,
-          historyList: history
+          usableList: list.filter(item => !item.ended),
+          historyList: list.filter(item => item.ended)
         });
-
-        console.log('page data after setData:', this.data);
-      },
-      fail(err) {
-        console.error("请求失败:", err);
       }
     });
   },
 
+  // ==============================
+  // 点击整卡区域（未结束 / 已结束）
+  // ==============================
   goDetail(e) {
     const id = e.currentTarget.dataset.id;
-    const ended = e.currentTarget.dataset.ended; // true / false
-  
+    const ended = e.currentTarget.dataset.ended;
+    const performance_id = e.currentTarget.dataset.performanceId; // ⭐ 大小写一致
+
     if (!ended) {
-      // 👉 未结束 → 去电子票页面（pay-success）
+      // 未结束 → 去电子票
       wx.navigateTo({
         url: `/pages/pay-success/pay-success?id=${id}`
       });
     } else {
-      // 👉 已结束 → 去订单详情页
+      // 已结束 → 默认跳评价页（被按钮拦截时不会执行这里）
       wx.navigateTo({
-        url: `/pages/评论页/评论页?order_id=${id}`
+        url: `/pages/review/review?order_id=${id}&performance_id=${performance_id}`
       });
     }
-  }  
+  },
+
+  // ==============================
+  // 点击 “去评价” 按钮（阻止冒泡）
+  // ==============================
+  goReview(e) {
+    const id = e.currentTarget.dataset.id;
+    const performance_id = e.currentTarget.dataset.performanceId;
+
+    wx.navigateTo({
+      url: `/pages/review/review?order_id=${id}&performance_id=${performance_id}`
+    });
+  }
 });

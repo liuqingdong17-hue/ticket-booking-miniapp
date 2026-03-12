@@ -25,7 +25,7 @@
 }
 
 .schedule-item.active {
-  border: 2rpx solid #ff4d4f;
+  border: 2rpx solid #ff4d6f;
   background: #fff4f4;
 }
 
@@ -47,7 +47,23 @@
 
 .confirm-btn {
   margin-top: 40rpx;
-  background-color: #ff4d4f;
+  background-color: #ff4d6f;
   color: white;
   border-radius: 40rpx;
+}
+
+/* 过期场次：置灰 + 禁点视觉 */
+.schedule-item.disabled {
+  opacity: .45;
+  position: relative;
+}
+
+/* “已结束”小标签 */
+.past-tag {
+  position: absolute;
+  right: 18rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24rpx;
+  color: #999;
 }

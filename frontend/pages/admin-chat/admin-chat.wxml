@@ -1,0 +1,29 @@
+<!--pages/admin-chat/admin-chat.wxml-->
+<view class="page">
+
+<!-- 聊天窗口 -->
+<scroll-view scroll-y class="chat-window" id="chatScroll" scroll-with-animation>
+  <block wx:for="{{messages}}" wx:key="id">
+
+    <!-- 客服消息 -->
+    <view wx:if="{{item.sender=='admin'}}" class="msg-row admin-row">
+      <image class="avatar" src="/images/admin-avatar.png"></image>
+      <view class="bubble admin-bubble">{{item.message}}</view>
+    </view>
+
+    <!-- 用户消息 -->
+    <view wx:elif="{{item.sender=='user'}}" class="msg-row user-row">
+      <view class="bubble user-bubble">{{item.message}}</view>
+      <image class="avatar" src="{{user.avatar}}"></image>
+    </view>
+
+  </block>
+</scroll-view>
+
+<!-- 输入区域 -->
+<view class="bottom-bar">
+  <input class="input" placeholder="请输入…" bindinput="onInput" value="{{inputText}}" />
+  <button class="send-btn" bindtap="sendMsg">发送</button>
+</view>
+
+</view>

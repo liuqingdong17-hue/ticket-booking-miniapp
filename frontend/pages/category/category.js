@@ -24,6 +24,13 @@ Page({
     this.setData({
       categoryName: decodeURIComponent(options.category || '')
     });
+    const name = decodeURIComponent(options.category || '');
+    this.setData({
+      categoryName: name
+    });
+    wx.setNavigationBarTitle({
+      title: `分类（${name}）`
+    });
     this.loadHotPerformances();
     this.loadData(true);
   },
@@ -156,8 +163,8 @@ Page({
     this.setData({ showFilter: false });
   },
 
-   // 重置事件监听，清空筛选 + 重载数据
-   onFilterReset(e) {
+  // 新增：重置事件监听，清空筛选 + 重载数据
+  onFilterReset(e) {
     console.log('分类页收到重置事件', e);
     this.setData({
       selectedPriceValue: '',

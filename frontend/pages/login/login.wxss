@@ -14,8 +14,9 @@
 }
 
 .logo {
-  width: 200rpx;
-  height: 200rpx;
+  width: 100rpx;
+  height: 100rpx;
+  margin-bottom: -30rpx;
 }
 
 .slogan {

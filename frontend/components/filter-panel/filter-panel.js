@@ -5,7 +5,7 @@ Component({
       type: Boolean,
       value: false
     },
-    selectedPriceValue: {  // 传的是区间值，比如 "0-100"
+    selectedPriceValue: {  
       type: String,
       value: ''
     },
@@ -111,6 +111,9 @@ Component({
 
     selectPrice(e) {
       const value = e.currentTarget.dataset.value;
+
+      this.triggerEvent('priceChange', { price: value });
+
       this.setData({
         selectedPriceValue: value,
         pricePickerShow: false
@@ -132,23 +135,51 @@ Component({
       console.log('toggleProvincePicker: 打开省份 Picker');
     },
 
+    /* 
+    =========================================
+     ✅ 修复后的 selectProvince（支持直辖市）
+    =========================================
+    */
     selectProvince(e) {
       const province = e.currentTarget.dataset.value;
       const provinceCode = e.currentTarget.dataset.code;
+
+      console.log("selectProvince:", province, provinceCode);
+
+      // ---- 直辖市代码 ----
+      const directCities = ["110000", "120000", "310000", "500000"];
+
+      if (directCities.includes(provinceCode)) {
+        console.log("直辖市，直接作为城市使用:", province);
+
+        this.setData({
+          selectedCity: province,
+          provincePickerShow: false,
+          cityPickerShow: false
+        });
+
+        this.triggerEvent("cityChange", { city: province });
+
+        wx.showToast({ title: `已选择：${province}`, icon: "success" });
+        return;
+      }
+
+      // ---- 普通省份逻辑 ----
       this.loadCities(provinceCode);
+
       this.setData({
         selectedProvince: province,
         provincePickerShow: false,
-        cityPickerShow: true  // 选省份后打开城市 Picker
+        cityPickerShow: true
       });
-      console.log('selectProvince: 选择省份', province, '加载城市');
+
+      console.log("普通省份，继续选择城市:", province);
     },
 
-    // 修改：toggleCityPicker 点“城市”栏时打开省份 Picker（全国筛选）
     toggleCityPicker() {
       console.log('toggleCityPicker: 打开省份 Picker，用于全国城市筛选');
       this.setData({
-        provincePickerShow: true,  // 先打开省份 Picker
+        provincePickerShow: true,
         pricePickerShow: false,
         cityPickerShow: false
       });
@@ -165,43 +196,33 @@ Component({
     },
 
     onLocate() {
-      // 新增：预授权位置权限（弹出授权弹窗）
       wx.authorize({
         scope: 'scope.userLocation',
         success: () => {
-          // 已授权，直接定位
           this._doGetLocation();
         },
         fail: () => {
-          // 拒绝或未授权，引导设置
           this._guideToSetting();
         }
       });
     },
 
-    // 新增：引导设置的逻辑
     _guideToSetting() {
       wx.getSetting({
         success: (res) => {
           if (!res.authSetting['scope.userLocation']) {
             wx.showModal({
               title: '需要位置权限',
-              content: '请在小程序设置中开启位置权限，以获取本地推荐。注意：如果未看到位置选项，请检查 app.json 配置并重启小程序。',
+              content: '请在小程序设置中开启位置权限，以获取本地推荐。',
               confirmText: '去设置',
               success: (modalRes) => {
                 if (modalRes.confirm) {
                   wx.openSetting({
                     success: (settingRes) => {
-                      // 设置后重新检查并重试
                       if (settingRes.authSetting['scope.userLocation']) {
                         wx.showToast({ title: '授权成功，重试定位', icon: 'success' });
-                        setTimeout(() => this.onLocate(), 500);  // 延时重试
-                      } else {
-                        wx.showToast({ title: '请手动开启位置权限', icon: 'none' });
+                        setTimeout(() => this.onLocate(), 500);
                       }
-                    },
-                    fail: () => {
-                      wx.showToast({ title: '打开设置失败', icon: 'none' });
                     }
                   });
                 }
@@ -214,35 +235,30 @@ Component({
       });
     },
 
-    // 新增：提取 getLocation 逻辑
     _doGetLocation() {
       wx.showLoading({ title: '定位中...' });
       wx.getLocation({
-        type: 'gcj02',  // 改成 gcj02，更适合中国
+        type: 'gcj02',
         success: (res) => {
           wx.hideLoading();
           this.getCityByLocation(res.latitude, res.longitude);
         },
         fail: (err) => {
           wx.hideLoading();
-          console.error('getLocation fail:', err);  // 调试用
-          // 如果是权限拒绝，重新引导
+          console.error('getLocation fail:', err);
           if (err.errMsg.includes('auth deny')) {
             this._guideToSetting();
           } else {
             wx.showToast({ title: '定位失败，请检查 GPS 或重试', icon: 'none' });
           }
-        },
-        complete: () => {
-          wx.hideLoading();  // 无论成败都隐藏 loading
         }
       });
     },
 
-    // 修改 getCityByLocation：定位后直接填城市栏，不打开 Picker
     getCityByLocation(latitude, longitude) {
-      const apiKey = '2L5BZ-GFSHT-WL5XV-VIA4E-JDFYK-UEFOV';  // 当前 Key；请替换成你的真实腾讯地图 Key
-      if (!apiKey || apiKey.length < 20) {  // 简单校验 Key 有效性
+      const apiKey = '2L5BZ-GFSHT-WL5XV-VIA4E-JDFYK-UEFOV';
+
+      if (!apiKey || apiKey.length < 20) {
         wx.showToast({ title: '请配置有效的腾讯地图 Key', icon: 'none' });
         return;
       }
@@ -256,16 +272,14 @@ Component({
         success: (res) => {
           if (res.data.status === 0) {
             const city = res.data.result.address_component.city;
-            this.setData({ selectedCity: city });  // 直接填入城市栏
+            this.setData({ selectedCity: city });
             this.triggerEvent('cityChange', { city });
             wx.showToast({ title: `定位到: ${city}`, icon: 'success' });
-            console.log('getCityByLocation: 填入城市', city);
           } else {
-            wx.showToast({ title: `解析城市失败: ${res.data.message || '未知错误'}`, icon: 'none' });
+            wx.showToast({ title: '解析城市失败', icon: 'none' });
           }
         },
-        fail: (err) => {
-          console.error('腾讯地图 API fail:', err);
+        fail: () => {
           wx.showToast({ title: '网络错误，城市解析失败', icon: 'none' });
         }
       });
@@ -281,9 +295,8 @@ Component({
       this.onClose();
     },
 
-    // 新增：重置筛选数据
     onReset() {
-      console.log('onReset: 清空筛选数据');  // 调试日志
+      console.log('onReset: 清空筛选数据');
       this.setData({
         selectedPriceValue: '',
         selectedDate: '',
@@ -295,7 +308,7 @@ Component({
         provincePickerShow: false,
         cityPickerShow: false
       });
-      this.triggerEvent('reset', {});  // 通知父页重载数据
+      this.triggerEvent('reset', {});
       wx.showToast({ title: '已重置', icon: 'success' });
       this.onClose();
     }

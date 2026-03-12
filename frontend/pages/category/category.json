@@ -3,5 +3,8 @@
     "filter-panel": "/components/filter-panel/filter-panel",
     "performance-list": "/components/performance-list/performance-list"
   },
-  "navigationBarTitleText": "分类"
+  "navigationBarTitleText": "分类（${name}）",
+  "navigationBarBackgroundColor": "#ff4d6d",
+  "navigationBarTextStyle": "black",
+  "backgroundTextStyle": "light"
 }

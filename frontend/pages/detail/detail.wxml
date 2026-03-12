@@ -51,8 +51,28 @@
       <text class="arrow-text">></text>
     </view>
   </view>
+
+  <!-- ⭐ 演出评分 -->
+<view class="score-box">
+  <block wx:if="{{performance.avg_score}}">
+    <view class="score-number">{{performance.avg_score}} 分</view>
+    <view class="score-stars">
+    <block wx:for="{{5}}" wx:for-index="i" wx:key="i">
+    <image class="star" src="{{ i < performance.avgStars   ? '/images/star_on.png'   : '/images/star_off.png' }}"
+    />
+  </block>
+</view>
+
+    <view class="score-count">{{performance.review_count}} 条用户评价</view>
+  </block>
+
+  <block wx:else>
+    <view class="score-none">暂无评分</view>
+  </block>
+</view>
+
   <!-- 艺人卡片：单个对象 -->
-<view wx:if="{{artist}}" class="artist-card" bindtap="goArtistDetail">
+<!-- <view wx:if="{{artist}}" class="artist-card" bindtap="goArtistDetail">
   <view class="artist-left">
     <image class="artist-avatar" src="{{artist.avatar}}" mode="aspectFill"></image>
   </view>
@@ -65,7 +85,29 @@
       {{artist.isFollowing ? '已关注' : '+ 关注'}}
     </view>
   </view>
-</view>
+</view> -->
+<!-- ✅ 艺人卡片：一对多 -->
+<block wx:if="{{artists.length}}">
+  <block wx:for="{{artists}}" wx:key="id">
+    <view class="artist-card" bindtap="goArtistDetail" data-id="{{item.id}}">
+      <view class="artist-left">
+        <image class="artist-avatar" src="{{item.avatar}}" mode="aspectFill"></image>
+      </view>
+
+      <view class="artist-middle">
+        <view class="artist-name">{{item.name}}</view>
+        <view class="artist-meta">{{item.fans || 0}} 粉丝 | {{item.shows || 0}} 场在售演出</view>
+      </view>
+
+      <!-- 点关注不要触发整张卡片跳转 -->
+      <view class="artist-right" catchtap="toggleFollow" data-id="{{item.id}}" data-index="{{index}}">
+        <view class="follow-btn {{item.isFollowing ? 'following' : ''}}">
+          {{item.isFollowing ? '已关注' : '+ 关注'}}
+        </view>
+      </view>
+    </view>
+  </block>
+</block>
 <!-- 演出介绍 -->
 <view class="performance-intro">
   <view class="section-header">
@@ -75,6 +117,54 @@
     <rich-text nodes="{{performance.description}}"></rich-text>
   </view>
 </view>
+
+<!-- 用户评价模块 -->
+<view class="review-section">
+
+<view class="section-header">
+  <text class="section-title">用户评价</text>
+</view>
+
+<!-- 无评论 -->
+<view wx:if="{{reviews.length === 0}}" class="no-review">
+  暂无评价
+</view>
+
+<!-- 有评论 -->
+<block wx:for="{{reviews}}" wx:key="id">
+  <view class="review-item">
+
+    <!-- 头像 + 用户名 + 星星 -->
+    <view class="review-header">
+      <image class="avatar" src="/images/default-avatar.png"></image>
+      <view class="user-info">
+        <text class="username">{{item.username}}</text>
+
+        <!-- 星星评分（rating 是 1-5） -->
+        <!-- 星星评分 -->
+        <view class="stars">
+          <block wx:for="{{item.stars}}" wx:key="index">
+            <image
+              class="star"
+              src="{{item ? '/images/star_on.png' : '/images/star_off.png'}}"
+            />
+          </block>
+          
+        </view>
+      </view>
+    </view>
+
+    <!-- 评论内容 -->
+    <view class="content">{{item.content}}</view>
+
+    <!-- 时间 -->
+    <view class="time">{{item.created_at}}</view>
+
+  </view>
+</block>
+
+</view>
+
 <!-- 底部固定栏 -->
 <view class="bottom-bar">
   <!-- 分享 -->

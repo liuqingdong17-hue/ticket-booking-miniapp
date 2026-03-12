@@ -2,5 +2,8 @@
   "usingComponents": {
     "performance-list": "/components/performance-list/performance-list"
   },
-  "navigationBarTitleText": "想看"
+  "navigationBarTitleText": "想看",
+  "navigationBarBackgroundColor": "#ff4d6d",
+  "navigationBarTextStyle": "black",
+  "backgroundTextStyle": "light"
 }

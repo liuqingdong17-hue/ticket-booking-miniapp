@@ -117,7 +117,7 @@
 }
 
 .add-btn {
-  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+  background: linear-gradient(135deg, #ff6b6b, #ff4d6f);
   color: #fff;
   border-radius: 12rpx;
   font-size: 30rpx;

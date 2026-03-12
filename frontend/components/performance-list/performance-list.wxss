@@ -52,7 +52,7 @@
 
 .price {
   font-size: 28rpx;
-  color: #ff4d4f;
+  color: #ff4d6f;
   font-weight: bold;
   margin-top: 8rpx;
 }

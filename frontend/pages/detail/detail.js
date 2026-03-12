@@ -1,13 +1,15 @@
 Page({
   data: {
     performance: {},
-    artist: null,
+    artists: [],
     loading: false,
     showSeatMapModal: false,
     showServiceDetailsModal: false,
     isFavorite: false,
     checkingFavorite: false,
-    isDataLoaded: false // 跟踪数据加载状态
+    isDataLoaded: false, // 跟踪数据加载状态
+
+    reviews: []   // ⭐ 新增：评论列表
   },
 
   onLoad(options) {
@@ -17,9 +19,35 @@ Page({
       wx.showToast({ title: '演出ID无效', icon: 'none', duration: 2000 });
       return;
     }
+
     this.checkFavorite(id);
     this.loadPerformance(id);
+
+    this.loadReviews(id);   // ⭐ 新增：加载用户评论
   },
+
+  // ⭐ 新增方法：加载评论
+  loadReviews(performance_id) {
+    wx.request({
+      url: `http://localhost:3000/api/review/list/${performance_id}`,
+      method: "GET",
+      success: (res) => {
+        if (res.data.status === 0) {
+          const reviews = res.data.data || [];
+  
+          reviews.forEach(r => {
+            const rating = Number(r.rating || 0);
+  
+            // ⭐⭐⭐ 关键：生成星星数组
+            r.stars = [1, 2, 3, 4, 5].map(n => n <= rating);
+          });
+  
+          this.setData({ reviews });
+        }
+      }
+    });
+  },
+  
 
   checkFavorite(performanceId) {
     if (this.data.checkingFavorite) return;
@@ -45,7 +73,7 @@ Page({
             this.setData({ isFavorite: false, checkingFavorite: false });
           }
         } else {
-          wx.showToast({ title: '服务器响应异常', icon: 'none' });
+          wx.showToast({ title: '登录可享完整服务', icon: 'none' });
           this.setData({ isFavorite: false, checkingFavorite: false });
         }
       },
@@ -71,6 +99,9 @@ Page({
         }
         if (res.data && res.data.status === 0) {
           const performance = res.data.data;
+          
+          const avgScore = Number(performance.avg_score || 0); // 10 分制
+          performance.avgStars = Math.floor(avgScore / 2);     // 6.0 → 3 星
 
           if (performance.cover_url && !performance.cover_url.startsWith('http')) {
             performance.cover_url = `http://localhost:3000${performance.cover_url}`;
@@ -78,17 +109,40 @@ Page({
 
           this.setData({ performance, loading: false, isDataLoaded: true });
 
+          // const a = performance.artists;
+          // let artistId = null;
+          // if (typeof a === 'number') {
+          //   artistId = a;
+          // } else if (a && typeof a === 'object' && !Array.isArray(a)) {
+          //   artistId = a.id || a.artist_id || null;
+          // } else if (Array.isArray(a) && a.length) {
+          //   artistId = typeof a[0] === 'number' ? a[0] : (a[0]?.id || a[0]?.artist_id || null);
+          // }
+
+          // if (artistId) this.fetchArtist(artistId);
+          // 统一拿到 artistIds 数组
           const a = performance.artists;
-          let artistId = null;
-          if (typeof a === 'number') {
-            artistId = a;
-          } else if (a && typeof a === 'object' && !Array.isArray(a)) {
-            artistId = a.id || a.artist_id || null;
-          } else if (Array.isArray(a) && a.length) {
-            artistId = typeof a[0] === 'number' ? a[0] : (a[0]?.id || a[0]?.artist_id || null);
+          let artistIds = [];
+
+          if (Array.isArray(a)) {
+            artistIds = a;
+          } else if (typeof a === 'number') {
+            artistIds = [a];
+          } else if (a && typeof a === 'object') {
+            const one = a.id || a.artist_id;
+            artistIds = one ? [one] : [];
           }
 
-          if (artistId) this.fetchArtist(artistId);
+          // 去重 + 过滤空值
+          artistIds = [...new Set(artistIds)].filter(Boolean);
+
+          // 批量获取艺人详情
+          if (artistIds.length) {
+            this.fetchArtists(artistIds);
+          } else {
+            this.setData({ artists: [] });
+          }
+
         } else {
           wx.showToast({ title: res.data.message || '获取演出详情失败', icon: 'none' });
           this.setData({ loading: false });
@@ -142,24 +196,59 @@ Page({
     });
   },
 
-  fetchArtist(artistId) {
-    const token = wx.getStorageSync('token');
-    wx.request({
-      url: `http://localhost:3000/api/artists/${artistId}`,
-      method: 'GET',
-      header: token ? { Authorization: `Bearer ${token}` } : {},
-      success: (res) => {
-        if (res.statusCode === 200 && res.data && res.data.id) {
-          this.setData({ artist: res.data });
-        } else {
-          console.warn('获取艺人失败：', res);
-        }
-      },
-      fail: (err) => {
-        console.error('Artist request fail:', err);
-      }
+  // fetchArtist(artistId) {
+  //   const token = wx.getStorageSync('token');
+  //   wx.request({
+  //     url: `http://localhost:3000/api/artists/${artistId}`,
+  //     method: 'GET',
+  //     header: token ? { Authorization: `Bearer ${token}` } : {},
+  //     success: (res) => {
+  //       if (res.statusCode === 200 && res.data && res.data.id) {
+  //         this.setData({ artist: res.data });
+  //       } else {
+  //         console.warn('获取艺人失败：', res);
+  //       }
+  //     },
+  //     fail: (err) => {
+  //       console.error('Artist request fail:', err);
+  //     }
+  //   });
+  // },
+  requestPromise(options) {
+    return new Promise((resolve, reject) => {
+      wx.request({
+        ...options,
+        success: resolve,
+        fail: reject
+      });
     });
   },
+  
+  async fetchArtists(artistIds) {
+    const token = wx.getStorageSync('token');
+    try {
+      const reqs = artistIds.map(id =>
+        this.requestPromise({
+          url: `http://localhost:3000/api/artists/${id}`,
+          method: 'GET',
+          header: token ? { Authorization: `Bearer ${token}` } : {}
+        })
+      );
+  
+      const resList = await Promise.all(reqs);
+  
+      // 你的艺人接口现在看起来是直接返回对象（res.data.id 存在）
+      const artists = resList
+        .map(r => r.data)
+        .filter(a => a && a.id);
+  
+      this.setData({ artists });
+    } catch (e) {
+      console.error('fetchArtists error:', e);
+      this.setData({ artists: [] });
+    }
+  },
+  
 
   toggleFollow() {
     const { artist } = this.data;
@@ -192,7 +281,7 @@ Page({
             }
           });
         } else {
-          wx.showToast({ title: res.data?.error || '操作失败', icon: 'none' });
+          wx.showToast({ title:'请先登录' || '操作失败', icon: 'none' });
         }
       },
       fail: () => {
@@ -201,17 +290,16 @@ Page({
     });
   },
 
-  goArtistDetail() {
-    const { artist } = this.data;
-    if (!artist || !artist.id) {
+  goArtistDetail(e) {
+    const id = e.currentTarget.dataset.id;
+    if (!id) {
       wx.showToast({ title: '艺人数据未加载', icon: 'none' });
       return;
     }
     wx.navigateTo({
-      url: `/pages/artistDetail/artistDetail?id=${artist.id}`
+      url: `/pages/artistDetail/artistDetail?id=${id}`
     });
   },
-  
 
   showSeatMap() {
     if (this.data.performance.has_seat_map && this.data.performance.seat_map_url) {
@@ -220,9 +308,11 @@ Page({
       wx.showToast({ title: '暂无座位图', icon: 'none' });
     }
   },
+
   closeSeatMapModal() {
     this.setData({ showSeatMapModal: false });
   },
+
   showServiceDetails() {
     const p = this.data.performance;
     if (p.refundable || p.selectable_seats || p.real_name_required || p.ticket_exchangeable || p.electronic_ticket) {
@@ -232,44 +322,35 @@ Page({
       else wx.showToast({ title: '组件加载失败，请刷新', icon: 'none' });
     }
   },
+
   closeServiceDetailsModal() {
     this.setData({ showServiceDetailsModal: false });
     const serviceDetail = this.selectComponent('#service-detail');
     if (serviceDetail) serviceDetail.hide();
   },
 
-  // ================= 分享 =================
   onShareAppMessage() {
     console.log('onShareAppMessage triggered', this.data.performance);
     const { performance } = this.data;
     if (!performance || !performance.id) {
-      console.warn('Performance data not loaded for sharing');
       wx.showToast({ title: '演出数据未加载', icon: 'none' });
       return;
     }
     return {
       title: performance.name || '好演出推荐',
-      path: `/pages/detail/detail?id=${performance.id}`,
-      success: (res) => {
-        console.log('Share success', res);
-      },
-      fail: (err) => {
-        console.error('Share failed:', err);
-      }
+      path: `/pages/detail/detail?id=${performance.id}`
     };
   },
 
-// 购买
-onBuyNow() {
-  const { performance } = this.data;
-  if (!performance || !performance.id) {
-    wx.showToast({ title: '演出数据未加载', icon: 'none' });
-    return;
+  onBuyNow() {
+    const { performance } = this.data;
+    if (!performance || !performance.id) {
+      wx.showToast({ title: '演出数据未加载', icon: 'none' });
+      return;
+    }
+
+    wx.navigateTo({
+      url: `/pages/select-schedule/select-schedule?performance_id=${performance.id}`
+    });
   }
-
-  wx.navigateTo({
-    url: `/pages/select-schedule/select-schedule?performance_id=${performance.id}`
-  });
-}
-
 });

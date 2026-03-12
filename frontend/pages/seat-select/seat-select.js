@@ -1,299 +1,368 @@
 // pages/seat-select/seat-select.js
-const app = getApp()
+const app = getApp();
 
-// ---------- 辅助函数：手动绘制虚线矩形 ----------
+// 绘制虚线框（区域边框）
 function drawDashedRect(ctx, x, y, w, h, dash = 6, gap = 4) {
-  const drawDashLine = (x1, y1, x2, y2) => {
-    const dx = x2 - x1
-    const dy = y2 - y1
-    const len = Math.hypot(dx, dy)
-    const nx = dx / len
-    const ny = dy / len
-    let drawn = 0
-    while (drawn < len) {
-      const seg = Math.min(dash, len - drawn)
-      const sx = x1 + nx * drawn
-      const sy = y1 + ny * drawn
-      const ex = x1 + nx * (drawn + seg)
-      const ey = y1 + ny * (drawn + seg)
-      ctx.beginPath()
-      ctx.moveTo(sx, sy)
-      ctx.lineTo(ex, ey)
-      ctx.stroke()
-      drawn += seg + gap
+  const drawDash = (x1, y1, x2, y2) => {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const len = Math.hypot(dx, dy);
+    const nx = dx / len;
+    const ny = dy / len;
+    let progress = 0;
+
+    while (progress < len) {
+      const seg = Math.min(dash, len - progress);
+      const sx = x1 + nx * progress;
+      const sy = y1 + ny * progress;
+      const ex = x1 + nx * (progress + seg);
+      const ey = y1 + ny * (progress + seg);
+
+      ctx.beginPath();
+      ctx.moveTo(sx, sy);
+      ctx.lineTo(ex, ey);
+      ctx.stroke();
+
+      progress += seg + gap;
     }
-  }
+  };
 
-  const oldWidth = ctx.lineWidth
-  const oldStyle = ctx.strokeStyle
-  ctx.lineWidth = 1
-  ctx.strokeStyle = ctx.strokeStyle || 'rgba(0,0,0,0.12)'
+  ctx.save();
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = "rgba(0,0,0,0.2)";
 
-  // 四边
-  drawDashLine(x, y, x + w, y)
-  drawDashLine(x + w, y, x + w, y + h)
-  drawDashLine(x + w, y + h, x, y + h)
-  drawDashLine(x, y + h, x, y)
+  drawDash(x, y, x + w, y);
+  drawDash(x + w, y, x + w, y + h);
+  drawDash(x + w, y + h, x, y + h);
+  drawDash(x, y + h, x, y);
 
-  ctx.lineWidth = oldWidth
-  ctx.strokeStyle = oldStyle
+  ctx.restore();
 }
 
 Page({
   data: {
+    // Canvas
     ctx: null,
     canvasNode: null,
     dpr: 1,
     canvasWidth: 0,
     canvasHeight: 0,
 
-    performance_id: null,  // 接收
-    schedule_id: null,  // 接收
+    // 参数
+    performance_id: null,
+    schedule_id: null,
 
+    // 数据
     areas: [],
     selectedSeats: [],
-    totalPrice: '0.00',
+    totalPrice: "0.00",
 
+    // 手势
     scale: 1,
     translateX: 0,
     translateY: 0,
-    lastTouches: [],
-    lastDistance: 0
+    lastTouches: []
   },
 
-  // ---------- 页面加载 ----------
   onLoad(options) {
-    console.log('seat-select onLoad options', options);  // 加日志调试
-    // 解析来自上一个页面的参数
-    let performance_id = options?.performance_id || null
-    let schedule_id = options?.schedule_id || null
+    console.log("seat-select onLoad options:", options);
 
-    if (options.data) {
-      try {
-        const parsed = JSON.parse(decodeURIComponent(options.data))
-        performance_id = parsed.performance_id || performance_id
-        schedule_id = parsed.schedule_id || schedule_id
-      } catch (err) {
-        console.warn('data 参数解析失败:', err)
-      }
-    }
+    const performance_id = options.performance_id;
+    const schedule_id = options.schedule_id;
 
     if (!performance_id || !schedule_id) {
-      wx.showToast({ title: '场次参数缺失', icon: 'none' });
+      wx.showToast({ title: "参数缺失", icon: "none" });
       wx.navigateBack();
       return;
     }
 
-    this.setData({ performance_id, schedule_id })
+    this.setData({ performance_id, schedule_id });
 
-    // 初始化 canvas
-    const query = wx.createSelectorQuery()
-    query.select('#seatCanvas').fields({ node: true, size: true }).exec((res) => {
-      if (!res || !res[0]) {
-        console.error('无法获取 canvas 节点')
-        return
-      }
-      const canvas = res[0].node
-      const { width, height } = res[0]
-      const dpr = wx.getSystemInfoSync().pixelRatio || 1
+    // 初始化 Canvas
+    const query = wx.createSelectorQuery();
+    query
+      .select("#seatCanvas")
+      .fields({ node: true, size: true })
+      .exec((res) => {
+        if (!res[0]) return;
 
-      canvas.width = Math.floor(width * dpr)
-      canvas.height = Math.floor(height * dpr)
+        const canvas = res[0].node;
+        const width = res[0].width;
+        const height = res[0].height;
 
-      const ctx = canvas.getContext('2d')
-      ctx.scale(dpr, dpr)
+        const dpr = wx.getSystemInfoSync().pixelRatio;
 
-      this.setData({
-        ctx,
-        canvasNode: canvas,
-        dpr,
-        canvasWidth: width,
-        canvasHeight: height
-      }, () => {
-        this.loadSeats()
-      })
-    })
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+
+        const ctx = canvas.getContext("2d");
+        ctx.scale(dpr, dpr);
+
+        this.setData(
+          {
+            ctx,
+            canvasNode: canvas,
+            dpr,
+            canvasWidth: width,
+            canvasHeight: height
+          },
+          () => {
+            this.loadSeats();
+          }
+        );
+      });
   },
 
-  // ---------- 加载座位 ----------
+  // ============================
+  // 加载数据
+  // ============================
   loadSeats() {
-    const scheduleId = this.data.schedule_id || 1
-    console.log('loadSeats scheduleId', scheduleId);  // 加日志
     wx.request({
-      url: `http://localhost:3000/api/schedules/${scheduleId}/seats`,
-      method: 'GET',
+      url: `http://localhost:3000/api/schedules/${this.data.schedule_id}/seats`,
       success: (res) => {
-        console.log('loadSeats res', res.data);  // 加日志
-        if (res.data && res.data.status === 0) {
-          const areas = res.data.data || []
-          this.setData({ areas }, () => this.drawSeats())
-        } else {
-          wx.showToast({ title: res.data?.message || '获取座位失败', icon: 'none' })
+        console.log("loadSeats res:", res.data);
+
+        if (res.data.status !== 0) {
+          wx.showToast({ title: "加载失败", icon: "none" });
+          return;
         }
-      },
-      fail: (err) => {
-        console.error('loadSeats fail', err);  // 加日志
-        wx.showToast({ title: '请求失败', icon: 'none' })
+
+        this.setData({ areas: res.data.data }, () => {
+          this.drawSeats();
+        });
       }
-    })
+    });
   },
 
-  // ---------- 绘制座位 ----------
+  // ============================
+  // 绘制整个座位图
+  // ============================
   drawSeats() {
-    const { ctx, dpr, canvasWidth, canvasHeight, areas, scale, translateX, translateY, selectedSeats } = this.data
-    if (!ctx) return
+    const {
+      ctx,
+      canvasWidth,
+      canvasHeight,
+      dpr,
+      areas,
+      scale,
+      translateX,
+      translateY,
+      selectedSeats
+    } = this.data;
 
-    ctx.clearRect(0, 0, canvasWidth * dpr, canvasHeight * dpr)
-    ctx.save()
-    ctx.translate(translateX, translateY)
-    ctx.scale(scale, scale)
+    if (!ctx) return;
 
-    // 舞台
-    const stageW = Math.min(600, canvasWidth - 40)
-    const stageX = (canvasWidth - stageW) / 2
-    const stageY = 20
-    ctx.fillStyle = '#222'
-    ctx.fillRect(stageX, stageY, stageW, 28)
-    ctx.fillStyle = '#fff'
-    ctx.font = 'bold 14px sans-serif'
-    ctx.textAlign = 'center'
-    ctx.fillText('舞台 / STAGE', stageX + stageW / 2, stageY + 19)
+    ctx.clearRect(0, 0, canvasWidth * dpr, canvasHeight * dpr);
 
-    // 区域
-    areas.forEach((area, i) => {
-      const ax = area.position_x ?? area.x ?? 0
-      const ay = area.position_y ?? area.y ?? 0
-      const aw = area.width ?? 300
-      const ah = area.height ?? 200
+    ctx.save();
 
-      // 背景
-      const baseHue = (i * 50) % 360
-      const grad = ctx.createLinearGradient(ax, ay, ax + aw, ay + ah)
-      grad.addColorStop(0, `hsla(${baseHue},70%,80%,0.45)`)
-      grad.addColorStop(1, `hsla(${(baseHue + 20) % 360},70%,85%,0.45)`)
-      ctx.fillStyle = grad
-      ctx.fillRect(ax, ay, aw, ah)
+    ctx.translate(translateX, translateY);
+    ctx.scale(scale, scale);
 
-      // 边框
-      ctx.strokeStyle = `rgba(0,0,0,0.15)`
-      drawDashedRect(ctx, ax + 0.5, ay + 0.5, aw - 1, ah - 1, 6, 4)
+    // 绘制舞台
+    const stageW = canvasWidth * 0.7;
+    const stageX = (canvasWidth - stageW) / 2;
+    const stageY = 20;
 
-      // 座位
-      ;(area.seats || []).forEach(seat => {
-        const sx = seat.x ?? seat.position_x ?? 0
-        const sy = seat.y ?? seat.position_y ?? 0
-        const radius = 10
-        const isSelected = selectedSeats.some(s => s.id === seat.id)
-        let fillColor = '#ff4d4f'
-        if (seat.status === 'sold' || seat.status === 'sold_out') fillColor = '#ccc'
-        if (isSelected) fillColor = '#00c853'
+    ctx.fillStyle = "#202020";
+    ctx.fillRect(stageX, stageY, stageW, 30);
 
-        ctx.beginPath()
-        ctx.arc(sx, sy, radius, 0, Math.PI * 2)
-        ctx.fillStyle = fillColor
-        ctx.fill()
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 14px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("舞台 / STAGE", stageX + stageW / 2, stageY + 20);
 
-        ctx.lineWidth = isSelected ? 2.5 : 1
-        ctx.strokeStyle = isSelected ? '#006b3c' : '#888'
-        ctx.stroke()
-      })
-    })
+    // 绘制区域
+    areas.forEach((area, idx) => {
+      const {
+        area_id,
+        area_name,
+        position_x,
+        position_y,
+        width,
+        height,
+        seats
+      } = area;
 
-    ctx.restore()
+      // 渐变背景
+      const baseHue = (idx * 60) % 360;
+      const grad = ctx.createLinearGradient(
+        position_x,
+        position_y,
+        position_x + width,
+        position_y + height
+      );
+      grad.addColorStop(0, `hsla(${baseHue},70%,85%,0.45)`);
+      grad.addColorStop(1, `hsla(${(baseHue + 20) % 360},70%,90%,0.45)`);
+
+      ctx.fillStyle = grad;
+      ctx.fillRect(position_x, position_y, width, height);
+
+      ctx.strokeStyle = "rgba(0,0,0,0.15)";
+      drawDashedRect(
+        ctx,
+        position_x,
+        position_y,
+        width,
+        height
+      );
+
+      // 绘制座位
+      seats.forEach((seat) => {
+        const isSelected = selectedSeats.some((s) => s.id === seat.id);
+
+        let fill = seat.status === "sold" ? "#bdbdbd" : "#ff4081";
+        if (isSelected) fill = "#00c853";
+
+        ctx.beginPath();
+        ctx.arc(seat.position_x, seat.position_y, 12, 0, Math.PI * 2);
+        ctx.fillStyle = fill;
+        ctx.fill();
+
+        ctx.lineWidth = isSelected ? 3 : 1;
+        ctx.strokeStyle = isSelected ? "#00695c" : "#444";
+        ctx.stroke();
+      });
+
+      // 区域标签
+      ctx.fillStyle = "#333";
+      ctx.font = "bold 16px sans-serif";
+      ctx.fillText(
+        area_name,
+        position_x + width / 2,
+        position_y + 25
+      );
+    });
+
+    ctx.restore();
   },
 
-  // ---------- 手势操作 ----------
+  // ============================
+  // 触摸操作
+  // ============================
   onTouchStart(e) {
-    this.setData({ lastTouches: e.touches || [] })
+    this.setData({ lastTouches: e.touches });
   },
+
   onTouchMove(e) {
-    const touches = e.touches || []
-    const lastTouches = this.data.lastTouches || []
+    const touches = e.touches;
+    const last = this.data.lastTouches;
 
-    if (touches.length === 1 && lastTouches.length === 1) {
+    if (touches.length === 1 && last.length === 1) {
       // 拖拽
-      const dx = touches[0].x - lastTouches[0].x
-      const dy = touches[0].y - lastTouches[0].y
-      this.setData({
-        translateX: this.data.translateX + dx,
-        translateY: this.data.translateY + dy,
-        lastTouches: touches
-      }, () => this.drawSeats())
-      return
+      const dx = touches[0].x - last[0].x;
+      const dy = touches[0].y - last[0].y;
+
+      this.setData(
+        {
+          translateX: this.data.translateX + dx,
+          translateY: this.data.translateY + dy,
+          lastTouches: touches
+        },
+        () => this.drawSeats()
+      );
+
+      return;
     }
 
-    // 缩放
-    if (touches.length === 2 && lastTouches.length === 2) {
-      const dist = Math.hypot(touches[0].x - touches[1].x, touches[0].y - touches[1].y)
-      const lastDist = Math.hypot(lastTouches[0].x - lastTouches[1].x, lastTouches[0].y - lastTouches[1].y)
-      if (lastDist > 0) {
-        let newScale = this.data.scale * (dist / lastDist)
-        newScale = Math.min(Math.max(newScale, 0.5), 2.5)
-        this.setData({ scale: newScale, lastTouches: touches }, () => this.drawSeats())
-      } else {
-        this.setData({ lastTouches: touches })
-      }
+    // 双指缩放
+    if (touches.length === 2 && last.length === 2) {
+      const dist = Math.hypot(
+        touches[0].x - touches[1].x,
+        touches[0].y - touches[1].y
+      );
+      const lastDist = Math.hypot(
+        last[0].x - last[1].x,
+        last[0].y - last[1].y
+      );
+
+      let newScale = this.data.scale * (dist / lastDist);
+      newScale = Math.max(0.6, Math.min(newScale, 2.5));
+
+      this.setData({ scale: newScale, lastTouches: touches }, () =>
+        this.drawSeats()
+      );
     }
   },
+
   onTouchEnd() {
-    this.setData({ lastTouches: [], lastDistance: 0 })
+    this.setData({ lastTouches: [] });
   },
 
-  // ---------- 选座 ----------
+  // ============================
+  // 点击选座
+  // ============================
   onCanvasTap(e) {
-    const { x, y } = e.detail
-    const { translateX, translateY, scale, areas, selectedSeats } = this.data
-    const tx = (x - translateX) / scale
-    const ty = (y - translateY) / scale
-
+    const { x, y } = e.detail;
+    const { translateX, translateY, scale, areas, selectedSeats } = this.data;
+  
+    const tx = (x - translateX) / scale;
+    const ty = (y - translateY) / scale;
+  
     for (const area of areas) {
-      const areaName = area.area_name || area.areaName || ''
+      const areaName = area.area_name;   // ⭐ 明确使用数据库返回值
+  
       for (const seat of (area.seats || [])) {
-        const sx = seat.x ?? seat.position_x ?? 0
-        const sy = seat.y ?? seat.position_y ?? 0
-        const r = 12
-        const dist = Math.hypot(tx - sx, ty - sy)
-        if (dist <= r && (seat.status !== 'sold' && seat.status !== 'sold_out')) {
-          const exists = selectedSeats.some(s => s.id === seat.id)
-          let newSelected
+        const sx = seat.position_x;
+        const sy = seat.position_y;
+        const r = 12;
+  
+        if (Math.hypot(tx - sx, ty - sy) <= r && seat.status !== 'sold') {
+  
+          const exists = selectedSeats.some(s => s.id === seat.id);
+          let newSelected = [];
+  
           if (exists) {
-            newSelected = selectedSeats.filter(s => s.id !== seat.id)
+            // 取消选中
+            newSelected = selectedSeats.filter(s => s.id !== seat.id);
           } else {
-            newSelected = [...selectedSeats, { ...seat, area_name: areaName }]
+            // 新增选中 — ⭐ 把 area_name 放进去
+            newSelected = [
+              ...selectedSeats,
+              {
+                ...seat,
+                area_name: areaName   // ⭐ 关键修复
+              }
+            ];
+  
             if (newSelected.length > 3) {
-              wx.showToast({ title: '最多可选 3 个座位', icon: 'none' })
-              return
+              wx.showToast({ title: "最多可选 3 个座位", icon: "none" });
+              return;
             }
           }
-          const total = newSelected.reduce((sum, s) => sum + parseFloat(s.price || 0), 0)
+  
+          const total = newSelected.reduce((sum, s) => sum + s.price, 0);
+  
           this.setData({
             selectedSeats: newSelected,
             totalPrice: total.toFixed(2)
-          }, () => this.drawSeats())
-          return
+          }, () => this.drawSeats());
+  
+          return;
         }
       }
     }
-  },
+  },  
 
-  // ---------- 确认选座 ----------
+  // ============================
+  // 确认选座
+  // ============================
   onConfirm() {
-    const { selectedSeats, performance_id, schedule_id } = this.data
-    if (!selectedSeats.length) {
-      wx.showToast({ title: '请选择座位', icon: 'none' })
-      return
+    if (this.data.selectedSeats.length === 0) {
+      wx.showToast({ title: "请选择座位", icon: "none" });
+      return;
     }
 
-    const dataToPass = { 
-      performance_id,
-      schedule_id,
-      selectedSeats  // 数组
-    }
-
-    console.log('onConfirm: 传数据到订单页', dataToPass);  // 加日志
+    const data = {
+      schedule_id: this.data.schedule_id,
+      performance_id: this.data.performance_id,
+      selectedSeats: this.data.selectedSeats
+    };
 
     wx.navigateTo({
-      url: `/pages/order-confirm/order-confirm?data=${encodeURIComponent(JSON.stringify(dataToPass))}`  // 改页名 + data 参数
-    })
-  }  
-})
+      url:
+        "/pages/order-confirm/order-confirm?data=" +
+        encodeURIComponent(JSON.stringify(data))
+    });
+  }
+});

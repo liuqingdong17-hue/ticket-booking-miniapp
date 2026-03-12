@@ -9,11 +9,25 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/ticket/ticket",
-          "pathName": "pages/ticket/ticket",
+          "name": "pages/verify/verify",
+          "pathName": "pages/verify/verify",
           "query": "",
           "scene": null,
           "launchMode": "default"
+        },
+        {
+          "name": "pages/search/search",
+          "pathName": "pages/search/search",
+          "query": "keyword=%25E7%258E%258B%25E8%258F%25B2",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/ticket/ticket",
+          "pathName": "pages/ticket/ticket",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         },
         {
           "name": "pages/profile/profile",

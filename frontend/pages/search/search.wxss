@@ -20,7 +20,7 @@
 .search-btn {
   width: 20%;
   height: 40px;
-  background-color: #ff4b70;
+  background-color: #ff4b6d;
   color: white;
   border-radius: 20px;
   text-align: center;
@@ -63,7 +63,7 @@
 
 .performance-price {
   font-size: 16px;
-  color: #FF6347;
+  color: #ff4b6d;
   font-weight: bold;
 }
 

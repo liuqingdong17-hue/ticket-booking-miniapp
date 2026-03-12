@@ -1,10 +1,4 @@
 <!-- pages/category/category.wxml -->
-<!-- 顶部导航栏 -->
-<view class="top-nav">
-  <image class="back-icon" src="/images/back.png" bindtap="onBack" />
-  <text class="title">{{categoryName}}</text>
-</view>
-
 <!-- 近期热门演出（一个月内） -->
 <view class="hot-section">
   <text class="section-title">近期热门</text>
@@ -41,8 +35,7 @@
   bind:confirm="onFilterConfirm"
   bind:close="onFilterClose"
   bind:cityChange="onCityChange"
-  bind:reset="onFilterReset"
-/>
+  bind:reset="onFilterReset"/>
 
 <!-- 全部演出列表 -->
 <performance-list 

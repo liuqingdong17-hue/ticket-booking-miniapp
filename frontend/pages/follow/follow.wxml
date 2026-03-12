@@ -1,16 +1,6 @@
 <!--pages/follow/follow.wxml-->
 <view class="page">
 
-<!-- 顶部标题 -->
-<view class="header">
-  <text class="title">我的关注</text>
-</view>
-
-<!-- tab 只有一个 -->
-<view class="tabs">
-  <view class="tab active">艺人</view>
-</view>
-
 <!-- 艺人列表 -->
 <block wx:for="{{artists}}" wx:key="id">
   <view class="artist-item" bindtap="goArtistDetail" data-id="{{item.id}}">

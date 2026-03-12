@@ -96,7 +96,7 @@ Page({
         this.setData({
           performances: reset ? sortedList : [...this.data.performances, ...sortedList],
           page: page + 1,
-          hasMore: sortedList.length === pageSize && (offset + sortedList.length) < total,
+          hasMore: (this.data.performances.length + newList.length) < total,
           loading: false
         });
       },
@@ -141,6 +141,15 @@ Page({
       this.loadData(true);  // 自动重载数据，恢复默认列表
     });
     wx.showToast({ title: '筛选已重置', icon: 'success' });
+  },
+  // 实时更新价格筛选（和城市一样）
+  onFilterPriceChange(e) {
+    console.log('收到价格筛选:', e.detail.price); // 加这行日志！！
+    this.setData({
+      selectedPriceValue: e.detail.price
+    }, () => {
+    this.loadData(true);
+    });
   },
 
   onCityChange(e) {
@@ -191,6 +200,10 @@ Page({
       wx.navigateTo({ url: `/pages/detail/detail?id=${id}` });
     }
   },
+  onReachBottom() {
+    this.loadData(false);
+  },
+  
 
   onSearch(e) {
     const keyword = e.detail.value;

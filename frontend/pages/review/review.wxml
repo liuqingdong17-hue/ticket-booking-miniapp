@@ -1,0 +1,25 @@
+<!--pages/review/review.wxml-->
+<view class="page">
+
+<view class="title">请为本次演出打分</view>
+
+<view class="stars">
+  <block wx:for="{{5}}" wx:key="index">
+    <image
+      class="star"
+      data-index="{{index}}"
+      bindtap="selectStar"
+      src="{{ index < rating ? '/images/star_on.png' : '/images/star_off.png' }}"
+    />
+  </block>
+</view>
+
+<textarea
+  class="textarea"
+  placeholder="写下你的评价（可选）"
+  bindinput="onInput"
+  value="{{content}}"
+/>
+
+<button class="submit-btn" bindtap="submitReview">提交评价</button>
+</view>

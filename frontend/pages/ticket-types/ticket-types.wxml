@@ -1,0 +1,66 @@
+<view class="container">
+
+<view class="header-bg">
+  <view class="header-content">
+    <view class="title">{{performanceInfo.name}}</view>
+    <view class="sub-title">
+      {{performanceInfo.city}} | {{performanceInfo.venue_name}}
+    </view>
+  </view>
+</view>
+
+<view class="main-content">
+  
+  <view class="section-box">
+    <view class="section-title">票档</view>
+    <view class="tickets-wrapper">
+      <block wx:for="{{ticketTypes}}" wx:key="id">
+        <view 
+          class="ticket-item {{selectedTicketId == item.id ? 'active' : ''}} {{item.stock == 0 ? 'sold-out' : ''}}"
+          bindtap="onSelectTicket"
+          data-id="{{item.id}}"
+          data-price="{{item.price}}"
+          data-stock="{{item.stock}}"
+        >
+          <view class="ticket-info">
+            <text class="t-name">{{item.name}}</text>
+            <text class="t-price">{{item.price}}元</text>
+          </view>
+          
+          <view class="stock-tag" wx:if="{{item.stock == 0}}">缺货登记</view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <view class="count-section">
+    <view class="count-left">
+      <view class="count-label">数量</view>
+      <view class="count-limit">每笔订单限购4张</view>
+    </view>
+    
+    <view class="count-control">
+      <button class="c-btn minus" bindtap="decCount" disabled="{{count <= 1}}">-</button>
+      <text class="c-num">{{count}}张</text>
+      <button class="c-btn plus" bindtap="incCount" disabled="{{count >= 4 || selectedTicketStock == 0}}">+</button>
+    </view>
+  </view>
+
+</view>
+
+<view class="bottom-bar">
+  <view class="price-info">
+    <view class="total-wrapper">
+      <text class="symbol">¥</text>
+      <text class="final-price">{{totalPrice}}</text>
+    </view>
+    <view class="price-detail">
+      价格明细 <text class="arrow">▴</text>
+    </view>
+  </view>
+  <button class="confirm-btn" bindtap="onConfirm" disabled="{{selectedTicketId === null || count === 0 || selectedTicketStock == 0}}">
+    确定
+  </button>
+</view>
+
+</view>

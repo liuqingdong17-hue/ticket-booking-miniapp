@@ -1,20 +1,20 @@
-<scroll-view scroll-y style="height: 100vh;" bindscrolltolower="onScrollToLower">
+<view>
   <block wx:for="{{internalPerformances}}" wx:key="id" wx:for-item="item">
-    <view class="performance-card {{item.isExpired ? 'expired' : ''}}" bindtap="onCardTap" data-id="{{item.id}}">
+    <view class="performance-card {{item.isExpired ? 'expired' :''}}" bindtap="onCardTap" data-id="{{item.id}}">
       <image src="{{item.cover_url}}" class="cover-image" />
-      <!-- 已下架角标 -->
       <view wx:if="{{item.isExpired}}" class="expired-tag">已下架</view>
 
       <view class="info">
         <view class="category">{{item.category}}</view>
         <view class="title">{{item.city}} | {{item.name}}</view>
-        <view class="artists">{{item.artists}}</view>
+        <view wx:if="{{item.artist_text}}" class="artists">{{item.artist_text}}</view>
         <view class="datetime">{{item.start_time}}</view>
         <view class="venue">{{item.venue_name}}</view>
         <view class="price">¥{{item.min_price}}</view>
       </view>
     </view>
   </block>
+
   <view wx:if="{{!internalPerformances.length}}" class="empty">暂无数据</view>
   <view wx:if="{{!hasMore && internalPerformances.length}}" class="end-tip">没有更多了~</view>
-</scroll-view>
+</view>

@@ -86,7 +86,7 @@
   font-weight: 600;
 }
 
-/* 按钮（示例：查看电子票） */
+/* 按钮（示例：查看电子票）
 .ticket-btn {
   width: 92%;
   margin: 20rpx auto 0;
@@ -101,4 +101,46 @@
 
 .btn:active {
   opacity: 0.85;
+} */
+
+
+/* 申请退款按钮 */
+.refund-btn {
+  width: 92%;
+  margin: 10rpx auto 0;
+  background: #ff4d6d;
+  color: #fff;
+  font-size: 30rpx;
+  padding: 22rpx 0;
+  border-radius: 50rpx;
+  text-align: center;
+  box-shadow: 0 8rpx 16rpx rgba(255,77,108,0.25);
+}
+
+/* 灰色提示文字 */
+.refund-tip {
+  margin-top: 16rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 不可退换 / 状态提示 */
+.refund-tag {
+  font-size: 26rpx;
+  padding: 18rpx 0;
+  text-align: center;
+  border-radius: 999rpx;
+  border: 1rpx solid #eee;
+}
+
+.refund-tag.not-refund {
+  color: #ff4d4f;
+  border-color: #ffb3b8;
+  background: #fff5f5;
+}
+
+.refund-tag.disabled {
+  color: #999;
+  border-color: #e0e0e0;
+  background: #fafafa;
 }

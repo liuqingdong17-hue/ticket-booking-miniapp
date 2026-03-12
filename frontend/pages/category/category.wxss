@@ -1,24 +1,4 @@
 /** pages/category/category.wxss **/
-/* 顶部导航栏 */
-.top-nav {
-  display: flex;
-  align-items: center;
-  padding: 20rpx 30rpx;
-  background-color: #fff;
-  border-bottom: 2rpx solid #f0f0f0;
-}
-
-.back-icon {
-  width: 40rpx;
-  height: 40rpx;
-  margin-right: 20rpx;
-}
-
-.title {
-  font-size: 36rpx;
-  font-weight: bold;
-}
-
 /* 近期热门 */
 .hot-section {
   padding: 20rpx 30rpx;

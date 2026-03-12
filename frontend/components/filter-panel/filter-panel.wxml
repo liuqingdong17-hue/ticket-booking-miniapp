@@ -51,8 +51,8 @@
     <!-- 底部操作按钮 -->
     <view class="filter-actions">
       <view class="reset-btn" bind:tap="onReset">重置</view>
-      <view class="cancel-btn" bind:tap="onClose">取消</view>
       <view class="confirm-btn" bind:tap="onConfirm">确认</view>
+      <view class="cancel-btn" bind:tap="onClose">取消</view>
     </view>
   </view>
 </view>

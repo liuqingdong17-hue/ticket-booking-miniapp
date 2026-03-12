@@ -29,10 +29,17 @@
     "pages/policy-detail/privacy",
     "pages/policy-detail/ticket-rules",
     "pages/policy-detail/refund-rules",
-    "pages/license/license"
+    "pages/license/license",
+    "pages/customer-service/customer-service",
+    "pages/admin-chat/admin-chat",
+    "pages/ticket-types/ticket-types",
+    "pages/review/review"
   ],
   "window": {
-    "navigationBarTitleText": "演出预订"
+    "navigationBarTitleText": "演出预订",
+    "navigationBarBackgroundColor": "#ff4d6d",
+    "navigationBarTextStyle": "black",
+    "backgroundTextStyle": "light"
   },
   "usingComponents": {
     "performance-list": "/components/performance-list/performance-list",
@@ -45,20 +52,20 @@
       {
         "pagePath": "pages/index/index",
         "text": "首页",
-        "iconPath": "images/index (1).png",
+        "iconPath": "images/index1.png",
         "selectedIconPath": "images/index.png"
       },
       {
         "pagePath": "pages/favorites/favorites",
         "text": "想看",
-        "iconPath": "images/index (1).png",
-        "selectedIconPath": "images/index.png"
+        "iconPath": "images/like1.png",
+        "selectedIconPath": "images/like.png"
       },
       {
         "pagePath": "pages/profile/profile",
         "text": "我的",
-        "iconPath": "images/index (1).png",
-        "selectedIconPath": "images/index.png"
+        "iconPath": "images/profile1.png",
+        "selectedIconPath": "images/profile.png"
       }
     ],
     "color": "#666",

@@ -61,7 +61,7 @@
   bind:confirm="onFilterConfirm"
   bind:close="onFilterClose"
   bind:cityChange="onCityChange"
-  bind:reset="onFilterReset"  
+  bind:reset="onFilterReset"
 />
 
 <!-- 推荐演出列表 -->

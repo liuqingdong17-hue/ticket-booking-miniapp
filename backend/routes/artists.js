@@ -92,42 +92,60 @@ router.get('/:artistId', (req, res) => {
 
 // ================== 查询艺人演出列表 ==============
 // 获取艺人相关的演出列表，按时间排序
+// ================== 查询艺人演出列表 ==============
+// 获取艺人相关的演出列表，按时间排序（含可选座最低价）
 router.get('/:artistId/performances', (req, res) => {
   const artistId = parseInt(req.params.artistId);
 
-  // 查询艺人相关的演出，按时间排序
-  db.query(
-    `SELECT p.id, p.name, p.category, p.city, p.cover_url, p.popularity,
-            GROUP_CONCAT(DISTINCT a.name SEPARATOR ',') AS artists,
-            MIN(DATE_FORMAT(s.schedule_time, '%Y-%m-%d %H:%i:%s')) AS start_time,
-            v.name AS venue_name,
-            MIN(t.price) AS min_price
-     FROM performances p
-     JOIN performance_artists pa ON p.id = pa.performance_id
-     LEFT JOIN artists a ON pa.artist_id = a.id
-     LEFT JOIN performance_schedules s ON p.id = s.performance_id
-     LEFT JOIN venues v ON p.venue_id = v.id
-     LEFT JOIN ticket_types t ON p.id = t.performance_id
-     WHERE pa.artist_id = ?
-     GROUP BY p.id
-     ORDER BY start_time ASC`,  // 按演出时间排序
-    [artistId],
-    (err, results) => {
-      if (err) {
-        return handleError(res, err);
-      }
+  const sql = `
+    SELECT 
+      p.id, p.name, p.category, p.city, p.cover_url, p.popularity,
+      GROUP_CONCAT(DISTINCT a2.name SEPARATOR ',') AS artists,
+      MIN(DATE_FORMAT(s.schedule_time, '%Y-%m-%d %H:%i:%s')) AS start_time,
+      v.name AS venue_name,
 
-      if (!results.length) {
-        return res.status(404).json({ error: '未找到该艺人的演出信息' });
-      }
+      -- ⭐ 最低票价：可选座优先，普通票兜底
+      CASE
+        WHEN MAX(ps.selectable_seats) = 1 THEN MIN(sap.price)
+        ELSE MIN(t.price)
+      END AS min_price
 
-      res.json({
-        status: 0,
-        message: '获取演出数据成功',
-        data: results
-      });
+    FROM performances p
+    JOIN performance_artists pa ON p.id = pa.performance_id
+    LEFT JOIN artists a2 ON pa.artist_id = a2.id
+    LEFT JOIN performance_schedules s ON p.id = s.performance_id
+    LEFT JOIN venues v ON p.venue_id = v.id
+
+    LEFT JOIN performance_services ps ON p.id = ps.performance_id
+
+    -- 可选座价格（分区价）
+    LEFT JOIN schedule_area_prices sap ON s.id = sap.schedule_id
+
+    -- 普通票价格
+    LEFT JOIN ticket_types t ON s.id = t.schedule_id
+
+    WHERE pa.artist_id = ?
+      AND p.status = 1                      -- ⭐ 只展示上架演出
+
+    GROUP BY p.id
+    ORDER BY start_time ASC;
+  `;
+
+  db.query(sql, [artistId], (err, results) => {
+    if (err) {
+      return handleError(res, err);
     }
-  );
+
+    if (!results.length) {
+      return res.status(404).json({ error: '未找到该艺人的演出信息' });
+    }
+
+    res.json({
+      status: 0,
+      message: '获取演出数据成功',
+      data: results
+    });
+  });
 });
 
 

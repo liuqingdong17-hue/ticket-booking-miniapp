@@ -1,4 +1,5 @@
 <!-- pages/order-detail/order-detail.wxml -->
+
 <!-- 订单信息 -->
 <view class="box">
   <view class="row">
@@ -24,18 +25,46 @@
   <view class="row">
     <text class="label">支付状态</text>
     <text class="value status {{order.status}}">
-      {{order.status === 'paid' ? '已支付' : '未支付'}}
+      {{order.status === 'paid' ? '已支付' : (order.status === 'canceled' ? '已取消' : '未支付')}}
     </text>
   </view>
+  <view class="row" wx:if="{{order.status==='unpaid' && order.leftSeconds >= 0}}">
+    <text class="label">支付倒计时</text>
+    <text class="value" style="color:#ff4d6d;font-weight:600;">
+      {{order.leftText}}
+    </text>
+  </view>
+
 </view>
 
-<!-- 座位信息 -->
-<view class="section-title">座位信息</view>
-<view class="box">
-  <block wx:for="{{order.seat_list}}" wx:key="text">
-    <view class="seat-item">{{item.text}}</view>
-  </block>
+
+<!-- 座位或票档标题 -->
+<view class="section-title">
+  {{order.seat_list.length > 0 ? '座位信息' : '票档信息'}}
 </view>
+
+<view class="box">
+
+  <!-- 可选座列表 -->
+  <block wx:if="{{order.seat_list.length > 0}}">
+    <block wx:for="{{order.seat_list}}" wx:key="index">
+      <view class="seat-item">
+        {{item.text}}
+      </view>
+    </block>
+  </block>
+
+  <!-- 不可选座（票档）列表 -->
+  <block wx:if="{{order.ticket_list.length > 0}}">
+    <block wx:for="{{order.ticket_list}}" wx:key="index">
+      <view class="seat-item">
+        {{item.ticket_name}} × {{item.count}}（￥{{item.price}}）
+      </view>
+    </block>
+  </block>
+
+</view>
+
 
 <!-- 金额信息 -->
 <view class="section-title">金额信息</view>
@@ -55,15 +84,61 @@
     <text class="value price">￥{{order.pay_price}}</text>
   </view>
 
-  <!-- 查看电子票 -->
-  <view class="footer">
-    <button 
-      wx:if="{{order.status === 'paid'}}" 
-      class="ticket-btn" 
-      bindtap="viewTicket"
-    >
-      查看电子票
-    </button>
+</view>
+
+<!-- ⭐ 退票说明模块（含未支付/取消订单） -->
+<view class="section-title">退票说明</view>
+<view class="box">
+
+  <!-- A. 已取消订单 -->
+  <view wx:if="{{order.status === 'canceled'}}">
+    <view class="refund-tag disabled">订单已取消</view>
+  </view>
+
+  <!-- B. 未支付订单：继续支付 + 取消订单 -->
+  <view wx:elif="{{order.status === 'unpaid'}}">
+    <view class="refund-tag wait">订单未支付</view>
+
+    <view style="display:flex; gap:12rpx; margin-top:16rpx;">
+      <button class="refund-btn" bindtap="onContinuePay">继续支付</button>
+      <button class="refund-btn" bindtap="onCancelOrder">取消订单</button>
+    </view>
+
+    <view class="refund-tip">未支付订单可继续支付或取消，取消后座位/库存将释放。</view>
+  </view>
+
+  <!-- C. 已超过演出开始时间 —— 不能退（只对已支付订单有意义） -->
+  <view wx:elif="{{order.status === 'paid' && order.now > order.schedule_timestamp}}">
+    <view class="refund-tag disabled">演出已开始，无法申请退票</view>
+  </view>
+
+  <!-- D. 未退款 & 可申请（已支付） -->
+  <view wx:elif="{{order.status === 'paid' && order.refundable == 1 && order.refund_status === 'none'}}">
+    <button class="refund-btn" bindtap="onApplyRefund">申请退款</button>
+    <view class="refund-tip">退款将原路返回，座位将重新释放。</view>
+  </view>
+
+  <!-- E. 不可退票（已支付/或其他） -->
+  <view wx:elif="{{order.refundable == 0}}">
+    <view class="refund-tag not-refund">该票不可退换</view>
+  </view>
+
+  <!-- F. 退款审核中 -->
+  <view wx:elif="{{order.refund_status === 'pending'}}">
+    <view class="refund-tag wait">退款申请审核中…</view>
+    <view wx:if="{{order.refund_apply_reason}}" class="refund-tip">
+      申请原因：{{order.refund_apply_reason}}
+    </view>
+  </view>
+
+  <!-- G. 退款成功 -->
+  <view wx:elif="{{order.refund_status === 'approved'}}">
+    <view class="refund-tag success">退款成功</view>
+  </view>
+
+  <!-- H. 退款被拒绝 -->
+  <view wx:elif="{{order.refund_status === 'rejected'}}">
+    <view class="refund-tag fail">退款被拒绝：{{order.refund_reject_reason || '管理员未填写原因'}}</view>
   </view>
 
 </view>

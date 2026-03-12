@@ -63,14 +63,14 @@
 .total-price {
   font-size: 28rpx;
   font-weight: bold;
-  color: #ff4d4f;
+  color: #ff4d6f;
   margin-right: 12rpx;
   min-width: 80rpx;
   text-align: right;
 }
 
 .confirm-btn {
-  background: linear-gradient(90deg, #ff7b72, #ff4d4f);
+  background: linear-gradient(90deg, #ff7b72, #ff4d6f);
   color: white;
   font-size: 26rpx;
   border-radius: 30rpx;
